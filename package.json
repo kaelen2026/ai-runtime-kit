@@ -1,0 +1,28 @@
+{
+  "name": "ai-runtime-kit",
+  "version": "0.1.0",
+  "description": "Reusable AI engineering runtime: BOOTSTRAP, workflows, safety, hooks, and templates for software projects driven by AI agents.",
+  "bin": {
+    "ai-runtime-kit": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "runtime",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "author": "kaelen <kaelen.hou@gmail.com>",
+  "keywords": [
+    "ai",
+    "agent",
+    "runtime",
+    "engineering",
+    "workflow",
+    "scaffolding",
+    "governance"
+  ]
+}
