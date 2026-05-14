@@ -13,6 +13,97 @@ AI agents should use this file to understand:
 
 ---
 
+## Workflow Overview
+
+The kit ships a 9-step pipeline for product-driven features
+(engineering-only changes skip Steps 0 and 0.5). Each step
+has a kit-shipped role-definition file under
+`.ai/runtime/agents/` and produces a structurally-linked
+artifact in `.ai/project/`.
+
+### Pipeline
+
+```txt
+Step 0    PRD          (optional · product-driven only)
+   ↓
+Step 0.5  Feature      (mandatory if Step 0 ran; N features per PRD)
+   ↓
+Step 1    Spec         (1 per feature; engineering details)
+   ↓
+Step 1.5  TDD          (per task with TDD-Applies: true)
+   ↓
+Step 2    Execute      (plan + task + implementation umbrella)
+   ↓
+Step 3    Verify
+   ↓
+Step 4    Review
+   ↓
+Steps 5+6 Fix + Commit
+```
+
+### Agents and artifacts per phase
+
+| Step | Agent (role file) | Artifact (project path) |
+|---|---|---|
+| 0     | `prd-writer`     | `.ai/project/prds/<slug>/prd.md` |
+| 0.5   | `feature-writer` | `.ai/project/features/<slug>/feature.md` |
+| 1     | `spec-writer`    | `.ai/project/specs/<slug>/spec.md` |
+| 2-plan| `planner`        | `.ai/project/plans/<slug>/plan.md` |
+| 2-task| `planner`        | `.ai/project/tasks/<slug>/...` |
+| 1.5   | `tdd-writer`     | failing-test git commit |
+| 2-impl| `executor`       | implementation git commit |
+| 3     | `verifier`       | (verification report, usually inline) |
+| 4     | `reviewer`       | `.ai/project/reviews/<slug>.md` |
+
+Notes: `task` is a transition concept consumed by the next
+role, not a separate authoring role; `architect` is replaced
+by `spec-writer` (see § Agents below).
+
+### Traceability chain
+
+Every artifact carries a structural upward-citation link in a
+`## Parent <Type>` section:
+
+```txt
+commit → task → plan → spec → feature → PRD
+```
+
+For per-artifact required sections and the
+`(none — <reason>)` rendering convention for skipped paths,
+see § Traceability.
+
+### Governance boundary
+
+Which changes require what depends on which paths they touch:
+
+| Touched paths | Branch convention | Preflight hook | Spec required |
+|---|---|---|---|
+| `runtime/**` | `chore/runtime-<topic>` | **GATE** fires (3 preconditions) | yes, §2 Scope enumerates each path |
+| `src/`, `test/`, `bin/` (kit code) | `feat/<topic>` / `fix/<topic>` | does not fire | yes (or simple feature workflow) |
+| `.ai/project/**` (project tree) | any | does not fire | depends on complexity |
+| `README` / `CHANGELOG` / `package.json` | any | does not fire | typically bundled with ship metadata |
+
+Per `branching.md § Governance Rule Branches`, runtime/
+governance changes MUST NOT be combined with feature code in
+the same commit — split into separate commits even on the
+same branch.
+
+### Where to read more
+
+- § Agents — the 8 role files and what each does.
+- § Traceability — the `## Parent <Type>` rules per artifact.
+- § Workflows — the canonical
+  `.ai/runtime/workflows/feature-development.md` step-by-step
+  (this Overview is a synthesis; the workflow doc is the
+  source of truth for the steps).
+- § Recommended Agent Flow — the same 8 roles listed as a
+  pipeline (separate from this Overview for readers arriving
+  at INDEX.md from a different entry point).
+- § Hooks — the `pre-executor/runtime-scoped-preflight` GATE
+  and other agent-transition hooks.
+
+---
+
 ## Agents
 
 Location:
