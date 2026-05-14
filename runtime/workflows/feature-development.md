@@ -129,7 +129,44 @@ Spec must include:
 - Verification Commands
 - Rollback Plan
 
+### 1.5. TDD Phase (per task, when applicable)
+
+For each task produced under the spec's plan: if the task
+carries `TDD-Applies: true` (see
+`.ai/runtime/tasks/_template.md` § TDD-Applies), a **failing-
+test commit must land before** that task's implementation
+commit. The role file for this step is
+`.ai/runtime/agents/tdd-writer.md`.
+
+**Trigger.** Task's `TDD-Applies` value is `true`. The
+boundary follows parent-PRD-style rules: behavior-changing
+tasks → `true`; doc / refactor-with-no-behavior-change /
+config-only → `false`.
+
+**Required artifact.** A separate commit whose diff contains
+only the failing test(s) for the task. Verify red (test
+actually fails) before declaring the step done. The
+implementation commit lands on a distinct commit hash with a
+later timestamp, satisfying the test that was just authored.
+
+**Skip rule.** Tasks with `TDD-Applies: false` skip this step
+entirely. The skip is explicit on the task itself (the
+`## TDD-Applies` section in the task file states the boolean
+plus a one-line reason); never implicit.
+
+**Per-task semantics.** This is not a single workflow-wide
+pause. Step 1.5 runs once *per applicable task*, interleaved
+with that task's implementation. A feature with N
+TDD-applicable tasks fires Step 1.5 N times.
+
 ### 2. Execute with Claude Code
+
+> Step 1.5 is a per-task prerequisite for any task with
+> `TDD-Applies: true`. The execute step below covers plan
+> authoring, task production, implementation, and verification
+> as one umbrella; the TDD discipline runs *inside* that
+> umbrella, per applicable task, before each task's
+> implementation commit.
 
 Claude Code must read:
 
