@@ -10,6 +10,13 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.8.0** — Wires TDD into the workflow as **Step 1.5**: for
+each task with `TDD-Applies: true`, a failing-test commit must
+precede the implementation commit. Adds `## TDD-Applies` to
+the task template. F3 of the nine-phase-workflow PRD; F4
+(traceability) is the last remaining slice. Makes M4 (≥90%
+test-first ordering) measurable for the first time.
+
 **v0.7.0** — Completes the 8-phase agent roster. Adds 5 new
 role files (`feature-writer`, `spec-writer`, `planner`,
 `tdd-writer`, `reviewer`) under `runtime/agents/`. INDEX.md's

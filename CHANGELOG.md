@@ -10,6 +10,50 @@ kit.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-05-14
+
+Third feature shipped under the v0.6.0 PRD → Feature → Spec
+pipeline. F3 of the nine-phase-workflow PRD; F4 (traceability
+conventions) is the last remaining slice.
+
+### Added
+- **Workflow Step 1.5: TDD Phase (per task, when applicable)**
+  in `runtime/workflows/feature-development.md`. Wires up
+  `tdd-writer.md` (shipped in v0.7.0) into the workflow. For
+  any task with `TDD-Applies: true`, a failing-test commit
+  must land before the implementation commit. Per-task
+  semantics: N TDD-applicable tasks fire Step 1.5 N times,
+  interleaved with implementation.
+- **`## TDD-Applies` section** in `runtime/tasks/_template.md`'s
+  trailing metadata cluster. Default `false`; allowed values
+  `true | false`. Inline guidance documents the
+  behavior-changing boundary rule (behavior-changing → true;
+  doc / refactor-no-behavior / config-only → false; matches
+  parent PRD OOS4).
+
+### Changed
+- Step 2 (Execute with Claude Code) body amended with a note
+  acknowledging Step 1.5 as a per-task prerequisite. Step 2's
+  scope unchanged otherwise.
+
+### Process
+- Fifth real-world fire of `pre-executor/runtime-scoped-preflight`
+  hook; clean pass on first attempt (2 runtime paths in spec §2).
+- **First feature whose own implementation was traced through
+  its own rule before impl began.** F3 defines TDD-Applies for
+  tasks; F3's own impl is doc-only (workflow text + template
+  field) per PRD OOS4, so the rule applied to F3 returns
+  `TDD-Applies: false`. Recursion handled cleanly; trace
+  recorded in F3 spec §Open Questions Q3.
+- F3 ships with **no new tests** — spec confirmed existing init
+  test's template-presence assertion already covers
+  `runtime/tasks/_template.md`. Modest tarball-size delta
+  (~400 bytes).
+- M4 (test-first commit ordering ≥90%, 60d) becomes
+  measurable post-v0.8.0. Before F3, the workflow had no step
+  to comply with; from now on, future tasks with
+  `TDD-Applies: true` can be audited against the rule.
+
 ## [0.7.0] - 2026-05-14
 
 Second feature shipped under the v0.6.0 PRD → Feature → Spec
