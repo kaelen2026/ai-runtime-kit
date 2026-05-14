@@ -10,6 +10,16 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.9.0** — Formalizes the **`## Parent <Type>` traceability
+convention** across all artifact templates. Every kit artifact
+(spec / plan / task / review) now carries a structural
+upward-citation link to its direct parent, assembling the chain
+`commit → task → plan → spec → feature → PRD`. New
+`## Traceability` section in `runtime/INDEX.md` documents the
+convention. F4 of the nine-phase-workflow PRD — **the last
+slice**; shipping v0.9.0 completes the kit's first fully-
+delivered multi-feature PRD and validates framework A end-to-end.
+
 **v0.8.0** — Wires TDD into the workflow as **Step 1.5**: for
 each task with `TDD-Applies: true`, a failing-test commit must
 precede the implementation commit. Adds `## TDD-Applies` to

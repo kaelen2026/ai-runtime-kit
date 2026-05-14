@@ -10,6 +10,63 @@ kit.
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-05-14
+
+**Closes the v0.6.0 nine-phase-workflow PRD's 4-feature
+delivery.** F4 is the last slice; shipping it completes the
+first fully-delivered multi-feature PRD on this kit and
+validates framework A end-to-end.
+
+### Added
+- **`## Parent <Type>` convention** across all artifact
+  templates. Every artifact now carries a structural
+  upward-citation link to its direct parent, assembling the
+  chain `commit → task → plan → spec → feature → PRD`.
+  - Spec templates (regular + bug-fix variant): new
+    `## Parent Feature` section after `## Status`.
+  - Plan template: `## Related Spec` renamed to
+    `## Parent Spec` (single path required).
+  - Task template: `## Related Spec` → `## Parent Spec`; new
+    `## Parent Plan` section added (both required).
+  - Review template: new `## Parent Spec` section after
+    `## Summary`.
+- **`(none — <reason>)` rendering** for workflow paths that
+  skip an upstream artifact:
+  - Engineering-only specs → `(none — engineering-only)`.
+  - Bug-fix specs → `(none — bug-fix workflow)`.
+  - Hot-fix tasks → `(none — direct task)`.
+- **`runtime/INDEX.md` § Traceability** — new top-level
+  section between `## Agents` and `## Skills`. Documents the
+  chain, the per-artifact `## Parent <Type>` requirements,
+  the `(none — <reason>)` rendering rules, and the rationale
+  (powering M3 from the parent PRD).
+
+### Changed
+- `runtime/plans/_template.md` — `## Related Spec` is now
+  `## Parent Spec` (rename; semantics unchanged but field is
+  now required and single-path instead of bullet list).
+- `runtime/tasks/_template.md` — `## Related Spec` is now
+  `## Parent Spec`; format tightened to single path.
+
+### Process
+- **Seventh fire of `pre-executor/runtime-scoped-preflight`
+  hook**, seventh clean pass. Six runtime paths enumerated;
+  no GATE failures.
+- **First spec to structurally cite its parent feature.**
+  F4's own spec uses the new `## Parent Feature` section
+  (self-reference noted with HTML comment in the spec body).
+  The convention demonstrates itself before the templates
+  that codify it ship — same bootstrap pattern as F1's
+  feature doc in v0.6.0.
+- **Framework A end-to-end validated.** The v0.6.0
+  nine-phase-workflow PRD sliced into 4 features (F1–F4),
+  each shipped independently as v0.6.0 / v0.7.0 / v0.8.0 /
+  v0.9.0. M2 (PRD slicing without context duplication) has
+  its first complete data point — the parent PRD's Problem
+  / Target Users / Success Metrics live only in the PRD;
+  each feature doc references them by path or by reference
+  rather than re-stating.
+
 ## [0.8.1] - 2026-05-14
 
 Bundled cleanup of three carryover follow-ups from v0.7.0 and
