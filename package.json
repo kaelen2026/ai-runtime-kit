@@ -5,8 +5,12 @@
   "bin": {
     "ai-runtime-kit": "./bin/cli.js"
   },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
   "files": [
     "bin",
+    "src",
     "runtime",
     "README.md",
     "LICENSE"
