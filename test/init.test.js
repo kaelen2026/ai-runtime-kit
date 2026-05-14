@@ -103,10 +103,23 @@ test('init: writes CLAUDE.md agent entry at project root', () => {
   const claudeMd = path.join(cwd, 'CLAUDE.md');
   assert.ok(fs.existsSync(claudeMd), 'CLAUDE.md exists');
   const body = fs.readFileSync(claudeMd, 'utf8');
+
+  // Basic shape
   assert.match(body, /# CLAUDE\.md/, 'has heading');
-  assert.match(body, /\.ai\/runtime\/BOOTSTRAP\.md/, 'points to BOOTSTRAP');
-  assert.match(body, /\.ai\/project\/STATE\.md/, 'mentions STATE.md');
   assert.doesNotMatch(body, /this repo is the kit source/i, 'no dogfood-specific content');
+
+  // v0.11.0 orientation content (the new agentEntryClaudeMd
+  // returns 6 numbered "On task start" steps).
+  assert.match(body, /## On task start/, 'has On task start section');
+  assert.match(body, /\.ai\/runtime\/INDEX\.md/, 'points to INDEX.md (workflow overview entry)');
+  assert.match(body, /\.ai\/project\/STATE\.md/, 'mentions STATE.md');
+  assert.match(body, /\.ai\/runtime\/agents\//, 'mentions agent role files');
+  assert.match(body, /prd-writer|feature-writer|spec-writer|planner|tdd-writer|executor|verifier|reviewer/,
+    'enumerates at least one of the 8 agent roles');
+  assert.match(body, /## Parent /, 'mentions ## Parent <Type> convention');
+  assert.match(body, /chore\/runtime-/, 'mentions governance branch rule');
+  assert.match(body, /pre-executor\/runtime-scoped-preflight/, 'mentions preflight hook');
+  assert.match(body, /ai-runtime-kit validate/, 'mentions validate command');
 
   fs.rmSync(cwd, { recursive: true, force: true });
 });
