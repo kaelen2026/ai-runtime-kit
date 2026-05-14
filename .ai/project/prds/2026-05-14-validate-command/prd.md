@@ -2,7 +2,14 @@
 
 ## Status
 
-DRAFT
+APPROVED
+<!-- APPROVED by kaelen via "1" reply to the post-DRAFT
+     options prompt; the 5 default decisions in §Open Questions
+     accepted as written. Section content (Problem / Target
+     Users / Success Metrics / User Stories / Out of Scope)
+     accepted as drafted. -->
+
+
 
 <!-- ELICIT NOTE: This PRD was drafted by proposal rather than
      turn-by-turn elicitation, after the user picked C
