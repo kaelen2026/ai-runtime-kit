@@ -6,9 +6,20 @@ Describe the specific engineering goal.
 
 ---
 
-## Related Spec
+## Parent Spec
 
--
+`.ai/project/specs/YYYY-MM-DD-<slug>/spec.md`
+<!-- Required. Single path. -->
+
+---
+
+## Parent Plan
+
+`.ai/project/plans/YYYY-MM-DD-<slug>/plan.md`
+<!-- Required. Single path. For hot-fix tasks created outside
+     the normal plan-first workflow, render
+     `(none — direct task)`. See .ai/runtime/INDEX.md
+     § Traceability for the full chain. -->
 
 ---
 

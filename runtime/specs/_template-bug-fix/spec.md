@@ -6,6 +6,15 @@ DRAFT
 <!-- Allowed: DRAFT | APPROVED | REJECTED | SUPERSEDED.
      See .ai/runtime/workflows/bug-fix.md for lifecycle rules. -->
 
+## Parent Feature
+
+(none — bug-fix workflow)
+<!-- Bug-fix workflow skips Step 0.5 (no feature slicing) — the
+     fix is corrective, not a sliced PRD feature. Override with
+     a real path only if the bug fix happens to be part of a
+     larger PRD-driven effort. See .ai/runtime/INDEX.md
+     § Traceability for the full chain. -->
+
 ## 1. Goal
 
 Describe the corrective outcome in one paragraph. Focus on what

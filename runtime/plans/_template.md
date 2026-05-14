@@ -6,9 +6,12 @@ Describe the overall engineering goal.
 
 ---
 
-## Related Spec
+## Parent Spec
 
--
+`.ai/project/specs/YYYY-MM-DD-<slug>/spec.md`
+<!-- Required. Single path — one plan implements one spec. The
+     spec in turn cites its parent feature, assembling the
+     upward chain. See .ai/runtime/INDEX.md § Traceability. -->
 
 ---
 

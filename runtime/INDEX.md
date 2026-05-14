@@ -65,6 +65,67 @@ Notes on phases without their own files:
 
 ---
 
+## Traceability
+
+Every kit artifact carries a structural **upward-citation link**
+to its direct parent, assembling a complete audit chain from any
+commit back to the originating PRD. The chain:
+
+```txt
+commit
+  → task              (## Parent Spec + ## Parent Plan)
+  → plan              (## Parent Spec)
+  → spec              (## Parent Feature)
+  → feature           (## Parent PRD)
+  → PRD
+```
+
+### `## Parent <Type>` convention
+
+Each artifact template carries one or more `## Parent <Type>`
+sections naming the direct upstream artifact by path. Required
+field; value is a single path string (not a bullet list).
+
+| Artifact | Required sections |
+|---|---|
+| PRD       | (root of the chain; no parent) |
+| Feature   | `## Parent PRD` |
+| Spec      | `## Parent Feature` |
+| Plan      | `## Parent Spec` |
+| Task      | `## Parent Spec` + `## Parent Plan` |
+| Review    | `## Parent Spec` |
+
+### `(none — <reason>)` rendering
+
+Some workflow paths skip an upstream artifact. Each artifact's
+template documents the rendering:
+
+- **Engineering-only spec** (no PRD/feature path; e.g.
+  documentation tidy) → `## Parent Feature: (none — engineering-only)`.
+- **Bug-fix spec** (workflow skips Step 0 / 0.5) →
+  `## Parent Feature: (none — bug-fix workflow)`.
+- **Hot-fix task** (created outside the normal plan-first
+  flow) → `## Parent Plan: (none — direct task)`.
+
+Empty / blank values are never valid. The `(none — <reason>)`
+rendering keeps the audit chain explicit even where steps are
+skipped.
+
+### Why structural
+
+The convention motivates **M3** (traceability chain) from the
+v0.6.0 nine-phase-workflow PRD: a future audit walks the
+sections to verify that shipped work satisfies stated intent,
+without parsing prose. Prose remains in `§Goal` and elsewhere
+for human readability — see `.ai/runtime/workflows/feature-development.md`
+for the per-phase rationale.
+
+This kit does NOT ship tooling that validates link resolution
+in this release; the convention exists at the doc level so
+future tooling (if needed) has a stable structure to read.
+
+---
+
 ## Skills
 
 Location:

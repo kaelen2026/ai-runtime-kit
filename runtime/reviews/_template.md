@@ -1,5 +1,13 @@
 # Review: <Feature Name>
 
+## Parent Spec
+
+`.ai/project/specs/YYYY-MM-DD-<slug>/spec.md`
+<!-- Required. Single direct-parent path. The review walks
+     further upstream (spec → feature → PRD) via the chain;
+     only the direct parent (spec) is structurally cited here.
+     See .ai/runtime/INDEX.md § Traceability for the full chain. -->
+
 ## Summary
 
 
