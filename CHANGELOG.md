@@ -10,6 +10,32 @@ kit.
 
 ## [Unreleased]
 
+## [0.8.1] - 2026-05-14
+
+Bundled cleanup of three carryover follow-ups from v0.7.0 and
+v0.8.0 reviews. Engineering-only, no PRD/feature parent.
+
+### Changed
+- `runtime/INDEX.md` — two stale `Architect` references (5-phase
+  pipeline) updated to the current 8-phase chain. The `## Hooks`
+  section's prose and the standalone `## Recommended Agent Flow`
+  ASCII block now both match the `## Agents` section.
+- `runtime/agents/spec-writer.md` — adds one `## Must Not`
+  bullet promoting the v0.5.1 + v0.7.0 size-ceiling drift
+  lesson from review-observation to agent-self-rule.
+- `README.md` — adds **Walkthrough 3 (full feature lifecycle,
+  v0.8.0+)** showing the 8-phase PRD → review pipeline with
+  concrete agent invocations and file paths. Existing
+  Walkthroughs 1 + 2 unchanged.
+
+### Process
+- Sixth real-world fire of `pre-executor/runtime-scoped-preflight`
+  hook; clean pass on first attempt (2 runtime paths).
+- First **engineering-only spec** on this kit (no PRD or feature
+  parent). Step 0 and Step 0.5 skipped per workflow rules.
+  Successfully ran spec → impl → ship in the streamlined
+  no-PRD path.
+
 ## [0.8.0] - 2026-05-14
 
 Third feature shipped under the v0.6.0 PRD → Feature → Spec

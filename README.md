@@ -283,6 +283,67 @@ kit's `skills/README.md` and `hooks/README.md` for the formats.
 
 ---
 
+## Walkthrough 3 — full feature lifecycle (v0.8.0+)
+
+For product-driven features, the kit runs an 8-phase pipeline.
+Each phase produces a kit-shipped artifact; each artifact cites
+its upstream parent. The chain assembles upward:
+
+```txt
+commit → task → plan → spec → feature → PRD
+```
+
+Quick lifecycle, with the agent roles invoked at each step:
+
+```bash
+# Step 0 — author a PRD (prd-writer)
+#   .ai/project/prds/YYYY-MM-DD-<slug>/prd.md
+#   Problem / Target Users / Success Metrics / User Stories /
+#   Out of Scope / Open Questions / Stakeholders
+
+# Step 0.5 — slice the PRD into ≥1 features (feature-writer)
+#   .ai/project/features/YYYY-MM-DD-<feature-slug>/feature.md
+#   Each cites the parent PRD; maps to PRD success metrics.
+#   Mandatory whenever Step 0 ran.
+
+# Step 1 — draft an engineering spec per feature (spec-writer)
+#   .ai/project/specs/YYYY-MM-DD-<feature-slug>/spec.md
+#   §1 Goal cites the parent feature path.
+#   §2 Scope enumerates every touched runtime/** path (preflight).
+
+# Step 1.5 — TDD phase (tdd-writer, per applicable task)
+#   For tasks with TDD-Applies: true, commit a failing test
+#   before the implementation commit.
+
+# Step 2 — plan, tasks, implementation (planner + executor)
+#   .ai/project/plans/...
+#   .ai/project/tasks/...   (each task carries TDD-Applies)
+#   Implementation lands on a chore/runtime-<slug> branch if
+#   the spec touches runtime/**; otherwise a feature branch.
+
+# Step 3 — verify (verifier)
+#   Run npm test + manual verification commands from the spec.
+
+# Step 4 — review (reviewer)
+#   .ai/project/reviews/YYYY-MM-DD-<slug>.md
+#   Maps PRD success metrics to delivered artifacts.
+
+# Then: merge, push, tag, optionally npm publish.
+```
+
+For each step, the corresponding kit-shipped agent role file
+lives under `.ai/runtime/agents/<role>.md` (PRD-writer,
+feature-writer, spec-writer, planner, tdd-writer, executor,
+verifier, reviewer). The canonical lifecycle source is
+`.ai/runtime/workflows/feature-development.md`.
+
+Engineering-only changes (bug fixes, refactors, doc tidy)
+skip Steps 0 and 0.5 and start directly at the spec — see
+`.ai/runtime/workflows/bug-fix.md` for the corrective-work
+variant.
+
+---
+
 ## Local development
 
 ```bash
