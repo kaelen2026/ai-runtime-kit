@@ -10,6 +10,15 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.5.0** — PRDs become a first-class workflow artifact upstream
+of specs. New `runtime/prds/_template.md` (Problem / Target Users
+/ Success Metrics / User Stories / Out of Scope / Open Questions
+/ Stakeholders); new optional Step 0 in feature-development
+workflow; `init` now scaffolds `.ai/project/prds/`. Bug fixes and
+engineering-only changes still skip PRDs and go straight to a
+spec. Kit still ships zero concrete skills — the `write-a-prd`
+skill referenced in this repo's dogfood lives project-side.
+
 **v0.4.1** — `init` now hints when `.ai/runtime/` is gitignored,
 so clones won't silently miss the runtime tree. Print is
 suppressed when the path is tracked (normal case) and in non-git

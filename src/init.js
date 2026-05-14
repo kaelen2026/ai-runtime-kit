@@ -10,6 +10,7 @@ const { projectStateMd, projectTaskStatusMd, agentEntryClaudeMd } = require('./t
 const { isPathGitignored } = require('./git');
 
 const PROJECT_SKELETON_DIRS = [
+  'prds',
   'specs',
   'plans',
   'tasks',
