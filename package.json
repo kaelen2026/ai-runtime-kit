@@ -20,6 +20,14 @@
   },
   "license": "MIT",
   "author": "kaelen <kaelen.hou@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaelen2026/ai-runtime-kit.git"
+  },
+  "homepage": "https://github.com/kaelen2026/ai-runtime-kit#readme",
+  "bugs": {
+    "url": "https://github.com/kaelen2026/ai-runtime-kit/issues"
+  },
   "keywords": [
     "ai",
     "agent",
