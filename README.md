@@ -10,6 +10,15 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.6.0** — Adds the **feature artifact** between PRD and spec
+— first slice (F1) of the nine-phase-workflow PRD. New
+`runtime/features/_template.md`, new workflow Step 0.5
+("Slice into Features," mandatory after Step 0), `init`
+scaffolds `.ai/project/features/`. Specs now cite their parent
+**feature** in §1 Goal (which cites the PRD); the chain
+assembles upward. F2 (agent files), F3 (TDD), F4 (traceability)
+follow as parallel features.
+
 **v0.5.1** — Adds the `prd-writer` agent at
 `runtime/agents/prd-writer.md`, closing the v0.5.0 gap where
 Step 0 (define PRD) had no canonical role file. Parallel to

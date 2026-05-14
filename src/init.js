@@ -11,6 +11,7 @@ const { isPathGitignored } = require('./git');
 
 const PROJECT_SKELETON_DIRS = [
   'prds',
+  'features',
   'specs',
   'plans',
   'tasks',

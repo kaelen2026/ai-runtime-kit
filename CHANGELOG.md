@@ -10,6 +10,50 @@ kit.
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-05-14
+
+First feature shipped under the new **PRD → Feature → Spec**
+pipeline (the parent PRD itself slices into F1–F4; this release
+delivers F1, the keystone).
+
+### Added
+- **`runtime/features/_template.md`** — canonical feature
+  template, new top-level runtime artifact between PRDs and
+  specs. Sections: Status / Parent PRD / Goal / PRD Metrics
+  Contributed / Scope / Acceptance / Open Questions /
+  Downstream Spec. Lifecycle: DRAFT → APPROVED → REJECTED →
+  SUPERSEDED, mirroring PRDs and specs.
+- **Workflow Step 0.5** in
+  `runtime/workflows/feature-development.md` — "Slice into
+  Features." Mandatory whenever Step 0 (PRD) ran; same skip
+  criteria as Step 0. One PRD → ≥1 feature docs. Single-feature
+  PRDs still produce one feature doc with full template
+  structure (no stub allowance).
+- `init` scaffolds `.ai/project/features/` as part of the
+  standard project skeleton.
+- `runtime/INDEX.md` gains a `## Features` section positioned
+  between `## PRDs` and `## Specs`.
+
+### Changed
+- **Spec citation rule.** Specs whose work derives from a PRD
+  now cite their parent **feature** in §1 Goal (which in turn
+  cites the PRD), instead of citing the PRD directly. The chain
+  assembles upward: spec → feature → PRD. Existing v0.5.x specs
+  are not retrofitted (per PRD OOS1).
+
+### Process
+- First multi-feature PRD authored on this kit
+  (`2026-05-14-nine-phase-workflow`). This release delivers
+  feature **F1 (feature artifact layer)**; F2 (agent files),
+  F3 (TDD phase), and F4 (traceability conventions) follow as
+  parallel features.
+- Third real-world fire of `pre-executor/runtime-scoped-preflight`
+  hook — all preconditions PASS on first attempt.
+- First time the kit's own dogfood feature doc was migrated to
+  match a template it created in the same release (canonical
+  bootstrap, BOOTSTRAP NOTE comment retained as the visible
+  scar).
+
 ## [0.5.1] - 2026-05-14
 
 ### Added

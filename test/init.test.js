@@ -24,10 +24,11 @@ test('init: fresh project lays down .ai/runtime/ and .ai/project/ skeleton', () 
   const v = fs.readFileSync(path.join(cwd, '.ai/runtime/KIT_VERSION'), 'utf8').trim();
   assert.equal(v, KIT_VERSION, 'KIT_VERSION content matches kit version');
 
-  for (const d of ['prds', 'specs', 'plans', 'tasks', 'reviews', 'verifications', 'adr', 'contracts', 'memory', 'rules', 'skills', 'hooks']) {
+  for (const d of ['prds', 'features', 'specs', 'plans', 'tasks', 'reviews', 'verifications', 'adr', 'contracts', 'memory', 'rules', 'skills', 'hooks']) {
     assert.ok(fs.existsSync(path.join(cwd, '.ai/project', d)), `project/${d}`);
   }
   assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/prds/_template.md')), 'runtime PRD template');
+  assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/features/_template.md')), 'runtime feature template');
   assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/agents/prd-writer.md')), 'runtime prd-writer agent');
   assert.ok(fs.existsSync(path.join(cwd, '.ai/project/STATE.md')), 'STATE.md');
   assert.ok(fs.existsSync(path.join(cwd, '.ai/project/tasks/TASK_STATUS.md')), 'project TASK_STATUS.md');
