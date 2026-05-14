@@ -62,34 +62,46 @@ Claude Code must read:
 - `.ai/runtime/workflows/feature-development.md`
 - `.ai/runtime/memory/engineering/principles.md`
 - related `.ai/project/contracts/**` files if the feature touches public APIs
-- relevant `.ai/runtime/skills/**` files should also be provided to Claude Code.
+- relevant skill files from **both** `.ai/runtime/skills/**`
+  (kit-shipped, framework-generic) **and** `.ai/project/skills/**`
+  (project-shipped, project-specific). Project-side files take
+  precedence on path collision.
 - feature spec
 
-If the spec itself authors or modifies a skill under
+If the spec itself authors or modifies a kit-shipped skill under
 `.ai/runtime/skills/**`, follow `.ai/runtime/skills/README.md` and
 treat the spec as runtime-scoped governance per
-`.ai/runtime/SAFETY.md` § Runtime Tree Protection.
+`.ai/runtime/SAFETY.md` § Runtime Tree Protection. Authoring a
+project-side skill at `.ai/project/skills/**` is not governance-
+protected (project owns its tree); it still follows the structural
+convention from `.ai/runtime/skills/README.md`.
 
-If the spec authors or modifies a rule under `.ai/runtime/rules/**`,
-follow `.ai/runtime/rules/README.md` and treat the spec as
-runtime-scoped governance per `.ai/runtime/SAFETY.md` § Runtime
-Tree Protection.
+If the spec authors or modifies a kit-shipped rule under
+`.ai/runtime/rules/**`, follow `.ai/runtime/rules/README.md` and
+treat the spec as runtime-scoped governance per `.ai/runtime/SAFETY.md`
+§ Runtime Tree Protection. Authoring a project-side rule at
+`.ai/project/rules/**` is not governance-protected.
 
 When the executor touches files in a rule's scope (e.g. a `.ts`
 file when a TypeScript rule exists), it must load the relevant
-rules from `.ai/runtime/rules/<language>/*.md` before writing code.
+rules from **both** `.ai/runtime/rules/<language>/*.md` (kit) and
+`.ai/project/rules/<language>/*.md` (project) before writing code.
+Project-side rules take precedence on path collision.
 
-If the spec authors or modifies a hook under `.ai/runtime/hooks/**`,
-follow `.ai/runtime/hooks/README.md` and treat the spec as
-runtime-scoped governance per `.ai/runtime/SAFETY.md` § Runtime
-Tree Protection.
+If the spec authors or modifies a kit-shipped hook under
+`.ai/runtime/hooks/**`, follow `.ai/runtime/hooks/README.md` and
+treat the spec as runtime-scoped governance per `.ai/runtime/SAFETY.md`
+§ Runtime Tree Protection. Authoring a project-side hook at
+`.ai/project/hooks/**` is not governance-protected.
 
 At each agent-pipeline transition (Architect → Planner → Executor
 → Verifier → Reviewer), the active agent must load hooks attached
-to its phase from `.ai/runtime/hooks/<phase>-<agent>/*/HOOK.md`
+to its phase from **both** `.ai/runtime/hooks/<phase>-<agent>/*/HOOK.md`
+(kit) and `.ai/project/hooks/<phase>-<agent>/*/HOOK.md` (project)
 whose `appliesWhen` matches the current spec, diff, or runtime
-mode. GATE and MUTATION hooks block the transition until their
-action completes; ADVISORY hooks log into the review file.
+mode. Project-side hooks take precedence on path collision. GATE
+and MUTATION hooks block the transition until their action
+completes; ADVISORY hooks log into the review file.
 
 Claude Code must return:
 

@@ -20,10 +20,18 @@ Load:
 - relevant plan
 - relevant task
 - related contracts
-- related skills
-- related rules from `.ai/runtime/rules/<language>/*.md` for any language whose files the task touches
-- related hooks from `.ai/runtime/hooks/<phase>-<agent>/*/HOOK.md` matching the current agent transition and `appliesWhen`
+- related skills from BOTH `.ai/runtime/skills/**` (kit) and
+  `.ai/project/skills/**` (project)
+- related rules from BOTH `.ai/runtime/rules/<language>/*.md`
+  (kit) and `.ai/project/rules/<language>/*.md` (project), for
+  any language whose files the task touches
+- related hooks from BOTH `.ai/runtime/hooks/<phase>-<agent>/*/HOOK.md`
+  (kit) and `.ai/project/hooks/<phase>-<agent>/*/HOOK.md`
+  (project), matching the current agent transition and
+  `appliesWhen`
 - executor agent
+
+Project-side files take precedence on path collision.
 
 Avoid loading unrelated specs, plans, or completed tasks.
 
@@ -37,8 +45,9 @@ Load:
 - git diff
 - verification result
 - reviewer agent
-- `pre-reviewer/*` and `post-reviewer/*` hooks from
-  `.ai/runtime/hooks/` matching the spec's `appliesWhen`
+- `pre-reviewer/*` and `post-reviewer/*` hooks from BOTH
+  `.ai/runtime/hooks/` (kit) and `.ai/project/hooks/` (project)
+  matching the spec's `appliesWhen`
 
 ## Verification
 
