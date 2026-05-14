@@ -28,10 +28,16 @@ const VALID_STATUSES = {
   tasks:    ['TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE'],
 };
 
+// Files within an artifact dir that are NOT instances of that
+// artifact type. TASK_STATUS.md is a top-level status tracker
+// produced by `init`, not a per-task instance.
+const EXCLUDED_FILENAMES = new Set(['TASK_STATUS.md']);
+
 function walkMd(dir) {
   if (!fs.existsSync(dir)) return [];
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (EXCLUDED_FILENAMES.has(entry.name)) continue;
     const p = path.join(dir, entry.name);
     if (entry.isDirectory()) out.push(...walkMd(p));
     else if (entry.isFile() && entry.name.endsWith('.md')) out.push(p);

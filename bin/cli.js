@@ -10,6 +10,7 @@ Usage: ai-runtime-kit <command> [options]
 Commands:
   init        Initialize .ai/ runtime in the current directory.
   upgrade     Upgrade .ai/runtime/ to the kit's current version.
+  validate    Check .ai/project/ tree structural integrity.
   --help, -h  Show this help.
   --version   Show kit version.
 
@@ -37,6 +38,9 @@ async function main() {
       return;
     case 'upgrade':
       await require('../src/upgrade').run(rest);
+      return;
+    case 'validate':
+      require('../src/validate').run(rest);
       return;
     default:
       console.error(`ai-runtime-kit: unknown command '${cmd}'`);
