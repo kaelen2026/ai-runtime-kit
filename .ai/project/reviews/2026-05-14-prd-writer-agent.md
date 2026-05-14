@@ -6,6 +6,11 @@ Branch: `chore/runtime-prd-writer-agent`
 Commits: `8423230` (runtime governance), `d7e0220` (kit code +
 ship metadata).
 
+
+## Parent Spec
+
+`.ai/project/specs/2026-05-14-prd-writer-agent/spec.md`
+
 ## Summary
 
 Closes the agent-vocabulary gap left by v0.5.0: Step 0 (define

@@ -7,6 +7,11 @@ Branch: `chore/runtime-feature-artifact-layer`
 Commits: `cf73945` (runtime governance), `3670610` (kit code +
 ship metadata).
 
+
+## Parent Spec
+
+`.ai/project/specs/2026-05-14-feature-artifact-layer/spec.md`
+
 ## Summary
 
 First feature shipped under the v0.6.0 nine-phase pipeline. F1

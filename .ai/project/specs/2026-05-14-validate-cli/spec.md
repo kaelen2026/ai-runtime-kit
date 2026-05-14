@@ -2,7 +2,19 @@
 
 ## Status
 
-DRAFT
+APPROVED
+<!-- APPROVED + AMENDED. User "1" reply approved the spec's
+     4-default resolution. Spec subsequently amended (before
+     impl) to include retrofit of 7 historical specs +
+     7 historical reviews — without retrofit, VM1 (clean-tree
+     pass on this kit's own .ai/) fails because pre-v0.9.0
+     artifacts predate the ## Parent <Type> convention. v0.9.0's
+     OOS#5 ("retrofit") was scoped to v0.9.0's own impl; this
+     spec (v0.10.0) chooses to retrofit because the validator's
+     credibility depends on its first dogfood pass being clean.
+     -->
+
+
 
 ## Parent Feature
 
@@ -41,6 +53,21 @@ Includes:
     1 on any error.
   - `test/validate.test.js` (NEW) — `node:test` unit tests
     covering the validator's behavior plus CLI integration.
+
+- **Historical artifact retrofit** (project-side; not
+  governance-scoped — `.ai/project/` is project-sovereign):
+  - 7 historical specs gain `## Parent Feature` section:
+    - v0.4.0 / v0.5.0 / v0.5.1: render
+      `(none — pre-feature-layer)` (predate v0.6.0's feature
+      layer; were product-driven but no feature artifact
+      existed)
+    - v0.6.0 / v0.7.0 / v0.8.0: cite their real feature path
+    - v0.8.1: render `(none — engineering-only)`
+  - 7 historical reviews gain `## Parent Spec` section
+    citing the real spec path.
+  - The v0.9.0 review already has `## Parent Spec`; v0.9.0
+    spec already has `## Parent Feature`. No edit needed
+    for those.
 
 Excludes (carry from feature §Excludes):
 
@@ -254,6 +281,11 @@ Feature-level questions resolved during this spec drafting:
 - Branch: `feat/validate-cli`.
 - **Not** runtime-scoped → preflight hook does not fire.
 - Commit structure (M4 demonstration!):
+  - **Commit 0 (retrofit prep)**: `chore(retrofit):
+    backfill ## Parent <Type> on pre-v0.9.0 artifacts` —
+    14 project-side edits (7 specs + 7 reviews) so VM1
+    passes on this kit's tree. No src/** or runtime/**
+    touches. Not TDD-applicable (doc-only per PRD OOS4).
   - **Commit 1 (T1-test)**: `test(validate): unit tests for
     src/validate.js (red)` — the test file exists; running
     asserts fail because src/validate.js doesn't exist yet.

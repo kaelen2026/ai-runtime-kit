@@ -4,6 +4,10 @@
 
 APPROVED
 
+## Parent Feature
+
+`.ai/project/features/2026-05-14-feature-artifact-layer/feature.md`
+
 ## Goal
 
 Implement F1 — the **feature artifact** — per the approved

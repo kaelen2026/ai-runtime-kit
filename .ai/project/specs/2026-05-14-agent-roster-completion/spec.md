@@ -4,6 +4,10 @@
 
 APPROVED
 
+## Parent Feature
+
+`.ai/project/features/2026-05-14-agent-roster-completion/feature.md`
+
 ## Goal
 
 Implement F2 — agent roster completion — per the approved

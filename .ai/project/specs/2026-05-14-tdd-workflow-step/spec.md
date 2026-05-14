@@ -4,6 +4,10 @@
 
 APPROVED
 
+## Parent Feature
+
+`.ai/project/features/2026-05-14-tdd-workflow-step/feature.md`
+
 ## Goal
 
 Implement F3 — TDD workflow step — per the approved feature doc

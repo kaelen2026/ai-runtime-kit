@@ -5,6 +5,11 @@ Branch: `chore/runtime-prd-template`
 Commits: `f4d2da7` (runtime), `81796dc` (kit code + v0.5.0),
 `8b6c1c0` (dogfood skill).
 
+
+## Parent Spec
+
+`.ai/project/specs/2026-05-14-prd-template-and-skill/spec.md`
+
 ## Summary
 
 Promoted PRDs to a first-class workflow artifact upstream of

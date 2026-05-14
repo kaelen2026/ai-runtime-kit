@@ -3,6 +3,11 @@
 Spec: `.ai/project/specs/2026-05-14-agent-entry-scaffolding/spec.md`
 Commits: `4a429f8` (dogfood scaffold), `9768bad` (feat v0.4.0)
 
+
+## Parent Spec
+
+`.ai/project/specs/2026-05-14-agent-entry-scaffolding/spec.md`
+
 ## Summary
 
 Closed the discovery gap surfaced during dogfood of this repo:

@@ -4,6 +4,10 @@
 
 APPROVED
 
+## Parent Feature
+
+(none — pre-feature-layer)
+
 ## Goal
 
 Make `ai-runtime-kit init` produce a working agent entry point so that

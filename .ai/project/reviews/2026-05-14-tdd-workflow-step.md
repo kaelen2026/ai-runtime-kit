@@ -7,6 +7,11 @@ Branch: `chore/runtime-tdd-workflow-step`
 Commits: `d7a797c` (runtime governance), `96828b4` (ship
 metadata).
 
+
+## Parent Spec
+
+`.ai/project/specs/2026-05-14-tdd-workflow-step/spec.md`
+
 ## Summary
 
 Third feature sliced from v0.6.0's nine-phase-workflow PRD.

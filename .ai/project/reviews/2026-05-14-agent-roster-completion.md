@@ -7,6 +7,11 @@ Branch: `chore/runtime-agent-roster-completion`
 Commits: `d0c7985` (runtime governance), `1489727` (kit code +
 ship metadata).
 
+
+## Parent Spec
+
+`.ai/project/specs/2026-05-14-agent-roster-completion/spec.md`
+
 ## Summary
 
 Second feature sliced from v0.6.0's nine-phase-workflow PRD.
