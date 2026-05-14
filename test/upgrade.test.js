@@ -164,3 +164,37 @@ test('computeRuntimeDiff: detects ADD / REPLACE / DELETE', () => {
 
   fs.rmSync(cwd, { recursive: true, force: true });
 });
+
+test('upgrade: never touches project-root CLAUDE.md', () => {
+  const cwd = makeTmp();
+  init.run(['--cwd', cwd]);
+  gitInit(cwd);
+
+  // Tamper with CLAUDE.md so we can detect any rewrite.
+  const claudeMd = path.join(cwd, 'CLAUDE.md');
+  fs.writeFileSync(claudeMd, 'TAMPERED\n');
+
+  // Force-downgrade KIT_VERSION so upgrade has work to do.
+  fs.writeFileSync(path.join(cwd, '.ai/runtime/KIT_VERSION'), '0.0.1');
+
+  const r = spawnSync(
+    process.execPath,
+    [
+      path.join(__dirname, '..', 'bin', 'cli.js'),
+      'upgrade',
+      '--cwd', cwd,
+      '--yes',
+      '--no-diff',
+      '--allow-dirty',
+    ],
+    { encoding: 'utf8' },
+  );
+  assert.equal(r.status, 0, `upgrade exits 0; stderr=${r.stderr}`);
+  assert.equal(
+    fs.readFileSync(claudeMd, 'utf8'),
+    'TAMPERED\n',
+    'CLAUDE.md untouched by upgrade',
+  );
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});

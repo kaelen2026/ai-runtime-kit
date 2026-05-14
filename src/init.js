@@ -6,7 +6,7 @@ const { parseArgs } = require('node:util');
 
 const { copyKitRuntimeTo, dirHasFiles, removeDir } = require('./snapshot');
 const { writeProjectKitVersion, KIT_VERSION } = require('./version');
-const { projectStateMd, projectTaskStatusMd } = require('./templates');
+const { projectStateMd, projectTaskStatusMd, agentEntryClaudeMd } = require('./templates');
 
 const PROJECT_SKELETON_DIRS = [
   'specs',
@@ -30,6 +30,7 @@ function run(argv) {
       options: {
         cwd: { type: 'string' },
         migrate: { type: 'boolean', default: false },
+        'no-agent-entry': { type: 'boolean', default: false },
         help: { type: 'boolean', short: 'h', default: false },
       },
       strict: true,
@@ -50,6 +51,7 @@ function run(argv) {
   const aiDir = path.join(cwd, '.ai');
   const runtimeDir = path.join(aiDir, 'runtime');
   const projectDir = path.join(aiDir, 'project');
+  const claudeMdPath = path.join(cwd, 'CLAUDE.md');
 
   // Detect "real" presence — empty-only directory tree counts as
   // absent so `init --migrate` post `git rm` doesn't have to be
@@ -58,12 +60,19 @@ function run(argv) {
   const projectHasFiles = dirHasFiles(projectDir);
   const runtimeEmptyButPresent = fs.existsSync(runtimeDir) && !runtimeHasFiles;
   const projectEmptyButPresent = fs.existsSync(projectDir) && !projectHasFiles;
+  const claudeMdExists = fs.existsSync(claudeMdPath);
+  const writeAgentEntry = !parsed.values['no-agent-entry'];
 
   if (!parsed.values.migrate) {
     if (runtimeHasFiles || projectHasFiles) {
       console.error('init: .ai/runtime/ or .ai/project/ already exists.');
       console.error('If you intended to bootstrap an existing-.ai/project/ repo, pass --migrate.');
       console.error('To upgrade an installed runtime, use: ai-runtime-kit upgrade');
+      process.exit(1);
+    }
+    if (writeAgentEntry && claudeMdExists) {
+      console.error('init: CLAUDE.md already exists at the project root.');
+      console.error('Pass --no-agent-entry to skip CLAUDE.md generation, or --migrate to keep the existing file.');
       process.exit(1);
     }
   } else {
@@ -101,6 +110,12 @@ function run(argv) {
     fs.writeFileSync(path.join(projectDir, 'tasks', 'TASK_STATUS.md'), projectTaskStatusMd());
   }
 
+  let agentEntryWritten = false;
+  if (writeAgentEntry && !claudeMdExists) {
+    fs.writeFileSync(claudeMdPath, agentEntryClaudeMd());
+    agentEntryWritten = true;
+  }
+
   console.log(`ai-runtime-kit ${KIT_VERSION}: initialized .ai/ at ${cwd}`);
   console.log('  - .ai/runtime/  (kit-managed; do not hand-edit)');
   if (!projectHasFiles) {
@@ -109,24 +124,34 @@ function run(argv) {
     console.log('  - .ai/project/  (pre-existing; not modified)');
   }
   console.log(`  - .ai/runtime/KIT_VERSION = ${KIT_VERSION}`);
+  if (agentEntryWritten) {
+    console.log('  - CLAUDE.md     (agent entry; project-owned, never touched by upgrade)');
+  } else if (claudeMdExists) {
+    console.log('  - CLAUDE.md     (pre-existing; not modified)');
+  } else {
+    console.log('  - CLAUDE.md     (skipped via --no-agent-entry)');
+  }
 }
 
 function printHelp() {
   console.log(`ai-runtime-kit init [options]
 
-Lay down .ai/runtime/ and (if absent) a .ai/project/ skeleton in
-the current directory.
+Lay down .ai/runtime/, a .ai/project/ skeleton (if absent), and a
+project-root CLAUDE.md (if absent) in the current directory.
 
 Options:
-  --cwd <dir>   Target directory (default: process.cwd())
-  --migrate     Allow pre-existing .ai/project/ (for bootstrapping
-                an existing repo into kit-consumer mode). Still
-                refuses if .ai/runtime/ already exists.
-  -h, --help    Show this help.
+  --cwd <dir>         Target directory (default: process.cwd())
+  --migrate           Allow pre-existing .ai/project/ and/or
+                      CLAUDE.md (for bootstrapping an existing repo
+                      into kit-consumer mode). Still refuses if
+                      .ai/runtime/ already exists.
+  --no-agent-entry    Skip CLAUDE.md generation entirely.
+  -h, --help          Show this help.
 
-Refuses if .ai/runtime/ or .ai/project/ already exists unless
---migrate is passed. To upgrade an installed runtime, use the
-upgrade command instead.`);
+Refuses (without --migrate) if .ai/runtime/, .ai/project/, or
+CLAUDE.md already exists. To upgrade an installed runtime, use the
+upgrade command instead. CLAUDE.md is project-owned and never
+modified by upgrade.`);
 }
 
 module.exports = { run, printHelp };

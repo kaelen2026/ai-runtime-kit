@@ -90,3 +90,66 @@ test('init --migrate: allows pre-existing .ai/project/ but refuses if .ai/runtim
 
   fs.rmSync(cwd, { recursive: true, force: true });
 });
+
+test('init: writes CLAUDE.md agent entry at project root', () => {
+  const cwd = makeTmp();
+  init.run(['--cwd', cwd]);
+
+  const claudeMd = path.join(cwd, 'CLAUDE.md');
+  assert.ok(fs.existsSync(claudeMd), 'CLAUDE.md exists');
+  const body = fs.readFileSync(claudeMd, 'utf8');
+  assert.match(body, /# CLAUDE\.md/, 'has heading');
+  assert.match(body, /\.ai\/runtime\/BOOTSTRAP\.md/, 'points to BOOTSTRAP');
+  assert.match(body, /\.ai\/project\/STATE\.md/, 'mentions STATE.md');
+  assert.doesNotMatch(body, /this repo is the kit source/i, 'no dogfood-specific content');
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
+test('init --no-agent-entry: skips CLAUDE.md creation', () => {
+  const cwd = makeTmp();
+  init.run(['--cwd', cwd, '--no-agent-entry']);
+
+  assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/BOOTSTRAP.md')), 'runtime still laid down');
+  assert.ok(!fs.existsSync(path.join(cwd, 'CLAUDE.md')), 'CLAUDE.md skipped');
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
+test('init: refuses when CLAUDE.md already exists at project root', () => {
+  const cwd = makeTmp();
+  fs.writeFileSync(path.join(cwd, 'CLAUDE.md'), 'pre-existing\n');
+
+  const r = require('node:child_process').spawnSync(
+    process.execPath,
+    [path.join(__dirname, '..', 'bin', 'cli.js'), 'init', '--cwd', cwd],
+    { encoding: 'utf8' },
+  );
+  assert.equal(r.status, 1, 'exits 1 on existing CLAUDE.md');
+  assert.match(r.stderr, /CLAUDE\.md already exists/i);
+  assert.equal(
+    fs.readFileSync(path.join(cwd, 'CLAUDE.md'), 'utf8'),
+    'pre-existing\n',
+    'pre-existing CLAUDE.md untouched',
+  );
+  assert.ok(!fs.existsSync(path.join(cwd, '.ai')), 'no .ai/ written on refusal');
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
+test('init --migrate: tolerates pre-existing CLAUDE.md', () => {
+  const cwd = makeTmp();
+  fs.writeFileSync(path.join(cwd, 'CLAUDE.md'), 'hand-written\n');
+
+  init.run(['--cwd', cwd, '--migrate']);
+
+  assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/BOOTSTRAP.md')), 'runtime laid down');
+  assert.equal(
+    fs.readFileSync(path.join(cwd, 'CLAUDE.md'), 'utf8'),
+    'hand-written\n',
+    'pre-existing CLAUDE.md preserved byte-for-byte',
+  );
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+

@@ -10,6 +10,13 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.4.0** — `init` now also writes a project-root `CLAUDE.md`
+agent entry file pointing Claude Code at
+`.ai/runtime/BOOTSTRAP.md`, so the runtime is actually
+discoverable on first run. The file is project-owned (never
+touched by `upgrade`) and skippable via `--no-agent-entry`.
+Surfaced and fixed during dogfood of this repo itself.
+
 **v0.3.0** — kit skeleton, runtime snapshot, `init` + `upgrade`
 CLI, documentation, and the two S3-discovered quirks fixed:
 `init --migrate` now tolerates an empty-only `.ai/runtime/` left
@@ -108,12 +115,16 @@ Lays down `.ai/runtime/` (from the kit's canonical snapshot) and
 `reviews/`, `verifications/`, `adr/`, `contracts/`, `memory/`,
 `rules/`, `skills/`, `hooks/` directories plus `STATE.md` and
 `tasks/TASK_STATUS.md` from fill-the-blanks templates). Writes
-`.ai/runtime/KIT_VERSION` recording the installed kit version.
+`.ai/runtime/KIT_VERSION` recording the installed kit version. Also
+writes a project-root `CLAUDE.md` (the Claude Code agent entry
+point) pointing at `.ai/runtime/BOOTSTRAP.md`; pass
+`--no-agent-entry` to skip it.
 
-**Refuses** if `.ai/runtime/` or `.ai/project/` already exists.
-Use `--migrate` if you're bootstrapping an existing project that
-already has its own `.ai/project/` content (this is the path
-ai-workflow-demo took during S3).
+**Refuses** if `.ai/runtime/`, `.ai/project/`, or `CLAUDE.md`
+already exists. Use `--migrate` if you're bootstrapping an existing
+project that already has its own `.ai/project/` content or its own
+`CLAUDE.md` (this is the path ai-workflow-demo took during S3).
+`CLAUDE.md` is project-owned — `upgrade` never touches it.
 
 ---
 
