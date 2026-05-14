@@ -1,6 +1,6 @@
 {
   "name": "ai-runtime-kit",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "Reusable AI engineering runtime: BOOTSTRAP, workflows, safety, hooks, and templates for software projects driven by AI agents.",
   "bin": {
     "ai-runtime-kit": "./bin/cli.js"

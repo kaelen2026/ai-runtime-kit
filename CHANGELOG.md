@@ -10,6 +10,39 @@ kit.
 
 ## [Unreleased]
 
+## [0.10.1] - 2026-05-14
+
+Bundled cleanup of four doc-only follow-ups from v0.9.0 and
+v0.10.0 reviews. Engineering-only spec; no PRD/feature parent.
+
+### Changed
+- `runtime/workflows/feature-development.md` — cross-references
+  `.ai/runtime/INDEX.md § Traceability` for the canonical
+  `## Parent <Type>` rules and `(none — <reason>)` rendering
+  convention. Also references `ai-runtime-kit validate` as the
+  audit tool.
+- `runtime/tasks/_template.md` — `## Parent Plan` comment now
+  shows the explicit `(none — direct task)` literal rendering
+  for hot-fix tasks.
+- `runtime/agents/spec-writer.md` — appends one `## Must Not`
+  bullet: "Approve specs whose acceptance asserts metrics on
+  state not yet in place (drift hit v0.5.1, v0.7.0, v0.10.0)."
+  File 1680 → 1794 bytes (under the spec's revised 1900
+  ceiling — 4th size-ceiling drift recorded; future fix
+  should make budgets ranges, not hard caps).
+- `README.md` — Walkthrough 3 per-step bullets gain annotations
+  showing which `## Parent <Type>` field anchors each step's
+  upward link. Closing line mentions `ai-runtime-kit validate`
+  as the audit step before merge.
+
+### Process
+- Eighth fire of `pre-executor/runtime-scoped-preflight` hook;
+  eighth clean pass.
+- Second engineering-only spec on this kit (after v0.8.1).
+  The streamlined no-PRD/no-feature path is now well-trodden.
+- `node bin/cli.js validate` self-test post-edit:
+  10 specs / 9 reviews on the kit's tree, all PASS.
+
 ## [0.10.0] - 2026-05-14
 
 **First M4 data point.** Kit's first `src/**` feature shipped

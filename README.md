@@ -10,6 +10,12 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.10.1** — Bundled cleanup of 4 doc-only follow-ups from
+v0.9.0/v0.10.0 reviews: workflow cross-ref to `INDEX § Traceability`,
+hot-fix example in task template, new `spec-writer.md` Must Not
+bullet on metric reachability, Walkthrough 3 per-step
+`## Parent <Type>` annotations.
+
 **v0.10.0** — Adds the **`validate` command** — checks
 `.ai/project/` tree structural integrity (every artifact carries
 its required `## Parent <Type>` section; every cited parent path
@@ -316,19 +322,19 @@ commit → task → plan → spec → feature → PRD
 Quick lifecycle, with the agent roles invoked at each step:
 
 ```bash
-# Step 0 — author a PRD (prd-writer)
+# Step 0 — author a PRD (prd-writer)                      [chain root]
 #   .ai/project/prds/YYYY-MM-DD-<slug>/prd.md
 #   Problem / Target Users / Success Metrics / User Stories /
 #   Out of Scope / Open Questions / Stakeholders
 
 # Step 0.5 — slice the PRD into ≥1 features (feature-writer)
 #   .ai/project/features/YYYY-MM-DD-<feature-slug>/feature.md
-#   Each cites the parent PRD; maps to PRD success metrics.
+#   Each feature has   ## Parent PRD   citing the PRD by path.
 #   Mandatory whenever Step 0 ran.
 
 # Step 1 — draft an engineering spec per feature (spec-writer)
 #   .ai/project/specs/YYYY-MM-DD-<feature-slug>/spec.md
-#   §1 Goal cites the parent feature path.
+#   Spec has           ## Parent Feature   citing the feature.
 #   §2 Scope enumerates every touched runtime/** path (preflight).
 
 # Step 1.5 — TDD phase (tdd-writer, per applicable task)
@@ -336,8 +342,10 @@ Quick lifecycle, with the agent roles invoked at each step:
 #   before the implementation commit.
 
 # Step 2 — plan, tasks, implementation (planner + executor)
-#   .ai/project/plans/...
-#   .ai/project/tasks/...   (each task carries TDD-Applies)
+#   .ai/project/plans/...   plan has   ## Parent Spec.
+#   .ai/project/tasks/...   each task has
+#                           ## Parent Spec + ## Parent Plan +
+#                           ## TDD-Applies.
 #   Implementation lands on a chore/runtime-<slug> branch if
 #   the spec touches runtime/**; otherwise a feature branch.
 
@@ -346,9 +354,11 @@ Quick lifecycle, with the agent roles invoked at each step:
 
 # Step 4 — review (reviewer)
 #   .ai/project/reviews/YYYY-MM-DD-<slug>.md
+#   Review has         ## Parent Spec.
 #   Maps PRD success metrics to delivered artifacts.
 
-# Then: merge, push, tag, optionally npm publish.
+# Then: ai-runtime-kit validate (audit the chain),
+#       merge, push, tag, optionally npm publish.
 ```
 
 For each step, the corresponding kit-shipped agent role file
