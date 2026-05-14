@@ -48,6 +48,27 @@ test('init: refuses when .ai/runtime/ already exists', () => {
   fs.rmSync(cwd, { recursive: true, force: true });
 });
 
+test('init --migrate: tolerates empty .ai/runtime/ left by git rm (v0.3.0 fix)', () => {
+  const cwd = makeTmp();
+  // Simulate post-`git rm` state: empty runtime parent dirs only.
+  fs.mkdirSync(path.join(cwd, '.ai/runtime/hooks/pre-reviewer'), { recursive: true });
+  fs.mkdirSync(path.join(cwd, '.ai/runtime/rules/typescript'), { recursive: true });
+  fs.mkdirSync(path.join(cwd, '.ai/project/specs'), { recursive: true });
+  fs.writeFileSync(path.join(cwd, '.ai/project/STATE.md'), 'existing\n');
+
+  init.run(['--cwd', cwd, '--migrate']);
+
+  assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/BOOTSTRAP.md')), 'runtime laid down');
+  assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/KIT_VERSION')), 'KIT_VERSION written');
+  assert.equal(
+    fs.readFileSync(path.join(cwd, '.ai/project/STATE.md'), 'utf8'),
+    'existing\n',
+    'pre-existing project state preserved',
+  );
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
 test('init --migrate: allows pre-existing .ai/project/ but refuses if .ai/runtime/ exists', () => {
   const cwd = makeTmp();
   fs.mkdirSync(path.join(cwd, '.ai/project'), { recursive: true });
@@ -58,14 +79,14 @@ test('init --migrate: allows pre-existing .ai/project/ but refuses if .ai/runtim
   assert.ok(fs.existsSync(path.join(cwd, '.ai/project/PRE_EXISTING.md')), 'pre-existing project file kept');
   assert.ok(!fs.existsSync(path.join(cwd, '.ai/project/STATE.md')), 'pre-existing project => no STATE.md overwritten/added');
 
-  // Second --migrate run should refuse (.ai/runtime/ now exists)
+  // Second --migrate run should refuse (.ai/runtime/ now has content)
   const r = require('node:child_process').spawnSync(
     process.execPath,
     [path.join(__dirname, '..', 'bin', 'cli.js'), 'init', '--cwd', cwd, '--migrate'],
     { encoding: 'utf8' },
   );
   assert.equal(r.status, 1, 'second --migrate exits 1');
-  assert.match(r.stderr, /already exists/i);
+  assert.match(r.stderr, /has content/i);
 
   fs.rmSync(cwd, { recursive: true, force: true });
 });

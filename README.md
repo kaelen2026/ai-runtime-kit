@@ -10,10 +10,12 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
-**v0.2.1** — kit skeleton, runtime snapshot, `init` + `upgrade`
-CLI, and documentation. ai-workflow-demo migrated to consume this
-kit at v0.2.0 (the first dogfood consumer). Not yet published to
-npm; use via `npm link` locally.
+**v0.3.0** — kit skeleton, runtime snapshot, `init` + `upgrade`
+CLI, documentation, and the two S3-discovered quirks fixed:
+`init --migrate` now tolerates an empty-only `.ai/runtime/` left
+by `git rm`, and `upgrade --pager <cmd>` pipes the per-file diff
+through a pager when stdout is a TTY. ai-workflow-demo migrated
+to consume this kit at v0.2.0 (the first dogfood consumer).
 
 The design spec is at:
 
@@ -256,17 +258,21 @@ projects.
 
 ---
 
-## Known quirks (v0.2.x)
+## v0.3.0 quirk fixes
 
-- **`init --migrate` refuses to overwrite an empty `.ai/runtime/`.**
-  If `git rm` left empty parent directories behind from a previous
-  layout, `init --migrate` will still refuse. Workaround: `rm -rf
-  .ai/runtime/` before re-running. Fix candidate for v0.3.0 — make
-  `init` treat "exists but contains zero regular files" as
-  equivalent to "does not exist".
-- **Per-file `diff -u` from `upgrade` can be verbose.** No built-in
-  pager. Pipe through `less`:
-  `npx ai-runtime-kit upgrade | less`.
+Both v0.2.x quirks discovered during the S3 dogfood are fixed:
+
+- **`init --migrate` now tolerates empty `.ai/runtime/`.** If `git
+  rm -r .ai/runtime/` left empty parent directories behind, the
+  v0.3.0 `init` detects "exists but contains zero regular files"
+  and treats it as absent (cleans up the stale dirs and proceeds).
+  Real content under `.ai/runtime/` still triggers the refuse-to-
+  overwrite guard.
+- **`upgrade --pager <cmd>` pipes per-file diff through a pager.**
+  Pass `--pager 'less -R'` (or set the env var
+  `AI_RUNTIME_KIT_PAGER`) and the per-file `diff -u` output is
+  spawned through the pager. Only applied when stdout is a TTY
+  (CI / scripted use keeps the direct-write behavior).
 
 ---
 

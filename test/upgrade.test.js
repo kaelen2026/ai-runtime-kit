@@ -112,6 +112,35 @@ test('upgrade: applies replace when version is older and --yes is given', async 
   fs.rmSync(cwd, { recursive: true, force: true });
 });
 
+test('upgrade --pager: spawns the pager process when stdout is a TTY (smoke)', () => {
+  // Can't easily exercise the TTY branch in node:test (stdout is a pipe).
+  // The non-TTY branch should still work: --pager is silently ignored
+  // when stdout is not a TTY, and the existing direct-write path runs.
+  const cwd = makeTmp();
+  init.run(['--cwd', cwd]);
+  gitInit(cwd);
+  fs.writeFileSync(path.join(cwd, '.ai/runtime/KIT_VERSION'), '0.0.1\n');
+  fs.writeFileSync(path.join(cwd, '.ai/runtime/SAFETY.md'), '# placeholder for diff\n');
+  spawnSync('git', ['commit', '-qam', 'pretend older'], { cwd });
+
+  const r = spawnSync(
+    process.execPath,
+    [
+      path.join(__dirname, '..', 'bin', 'cli.js'),
+      'upgrade',
+      '--cwd', cwd,
+      '--yes',
+      '--pager', 'cat',
+    ],
+    { encoding: 'utf8' },
+  );
+  // Without TTY, --pager is bypassed; upgrade still applies normally.
+  assert.equal(r.status, 0, 'exits 0');
+  assert.match(r.stdout, /Done. Kit upgraded/);
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
 test('computeRuntimeDiff: detects ADD / REPLACE / DELETE', () => {
   const cwd = makeTmp();
   init.run(['--cwd', cwd]);

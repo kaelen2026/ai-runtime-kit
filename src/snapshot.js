@@ -53,10 +53,32 @@ function removeDir(absDir) {
   }
 }
 
+// True iff absDir exists AND contains at least one regular file
+// anywhere in its subtree. Empty parent directories (e.g. left over
+// from `git rm -r` which doesn't remove the parent dirs) return
+// false — they're not real content.
+function dirHasFiles(absDir) {
+  if (!fs.existsSync(absDir)) return false;
+  const stack = [absDir];
+  while (stack.length) {
+    const current = stack.pop();
+    const entries = fs.readdirSync(current, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        stack.push(path.join(current, entry.name));
+      } else {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 module.exports = {
   KIT_RUNTIME_DIR,
   copyKitRuntimeTo,
   listKitRuntimeFiles,
   listFilesUnder,
   removeDir,
+  dirHasFiles,
 };

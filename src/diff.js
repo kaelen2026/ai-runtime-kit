@@ -62,18 +62,19 @@ function printDiffSummary(diff) {
   }
 }
 
-function printPerFileDiff(diff, projectRuntimeDir) {
+function printPerFileDiff(diff, projectRuntimeDir, out = process.stdout) {
+  const writeLine = (line) => out.write(`${line}\n`);
   for (const f of diff.replaced) {
     const a = path.join(projectRuntimeDir, f);
     const b = path.join(KIT_RUNTIME_DIR, f);
-    console.log(`--- a/.ai/runtime/${f}`);
-    console.log(`+++ b/.ai/runtime/${f} (kit)`);
+    writeLine(`--- a/.ai/runtime/${f}`);
+    writeLine(`+++ b/.ai/runtime/${f} (kit)`);
     const r = spawnSync('diff', ['-u', a, b], { encoding: 'utf8' });
     if (r.stdout) {
       const body = r.stdout.split('\n').slice(2).join('\n');
-      process.stdout.write(body);
+      out.write(body);
     }
-    console.log('');
+    writeLine('');
   }
 }
 

@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { parseArgs } = require('node:util');
 
-const { copyKitRuntimeTo } = require('./snapshot');
+const { copyKitRuntimeTo, dirHasFiles, removeDir } = require('./snapshot');
 const { writeProjectKitVersion, KIT_VERSION } = require('./version');
 const { projectStateMd, projectTaskStatusMd } = require('./templates');
 
@@ -51,34 +51,51 @@ function run(argv) {
   const runtimeDir = path.join(aiDir, 'runtime');
   const projectDir = path.join(aiDir, 'project');
 
-  const runtimeExists = fs.existsSync(runtimeDir);
-  const projectExists = fs.existsSync(projectDir);
+  // Detect "real" presence — empty-only directory tree counts as
+  // absent so `init --migrate` post `git rm` doesn't have to be
+  // chased with a manual `rm -rf` (kit v0.3.0 fix).
+  const runtimeHasFiles = dirHasFiles(runtimeDir);
+  const projectHasFiles = dirHasFiles(projectDir);
+  const runtimeEmptyButPresent = fs.existsSync(runtimeDir) && !runtimeHasFiles;
+  const projectEmptyButPresent = fs.existsSync(projectDir) && !projectHasFiles;
 
   if (!parsed.values.migrate) {
-    if (runtimeExists || projectExists) {
+    if (runtimeHasFiles || projectHasFiles) {
       console.error('init: .ai/runtime/ or .ai/project/ already exists.');
       console.error('If you intended to bootstrap an existing-.ai/project/ repo, pass --migrate.');
       console.error('To upgrade an installed runtime, use: ai-runtime-kit upgrade');
       process.exit(1);
     }
   } else {
-    if (runtimeExists) {
-      console.error('init --migrate: .ai/runtime/ already exists; refusing to overwrite.');
+    if (runtimeHasFiles) {
+      console.error('init --migrate: .ai/runtime/ already has content; refusing to overwrite.');
       console.error('Move it aside or use: ai-runtime-kit upgrade');
       process.exit(1);
     }
-    // In --migrate mode .ai/project/ MAY already exist; we only lay down
-    // .ai/runtime/ and skip any pre-existing project skeleton files.
+    // In --migrate mode .ai/project/ MAY already exist with content;
+    // we only lay down .ai/runtime/ and skip any pre-existing
+    // project skeleton files.
+  }
+
+  // Empty parent dirs (e.g. left by `git rm -r .ai/runtime/`) are
+  // removed here so copyKitRuntimeTo can re-create the tree cleanly.
+  if (runtimeEmptyButPresent) {
+    removeDir(runtimeDir);
+  }
+  // For --migrate (or fresh init), only remove an empty .ai/project/
+  // if it has no content — otherwise it stays untouched.
+  if (!parsed.values.migrate && projectEmptyButPresent) {
+    removeDir(projectDir);
   }
 
   fs.mkdirSync(aiDir, { recursive: true });
   copyKitRuntimeTo(runtimeDir);
   writeProjectKitVersion(cwd, KIT_VERSION);
 
-  if (!projectExists) {
-    fs.mkdirSync(projectDir);
+  if (!projectHasFiles) {
+    fs.mkdirSync(projectDir, { recursive: true });
     for (const d of PROJECT_SKELETON_DIRS) {
-      fs.mkdirSync(path.join(projectDir, d));
+      fs.mkdirSync(path.join(projectDir, d), { recursive: true });
     }
     fs.writeFileSync(path.join(projectDir, 'STATE.md'), projectStateMd());
     fs.writeFileSync(path.join(projectDir, 'tasks', 'TASK_STATUS.md'), projectTaskStatusMd());
@@ -86,7 +103,7 @@ function run(argv) {
 
   console.log(`ai-runtime-kit ${KIT_VERSION}: initialized .ai/ at ${cwd}`);
   console.log('  - .ai/runtime/  (kit-managed; do not hand-edit)');
-  if (!projectExists) {
+  if (!projectHasFiles) {
     console.log('  - .ai/project/  (project-owned; STATE.md and tasks/TASK_STATUS.md scaffolded)');
   } else {
     console.log('  - .ai/project/  (pre-existing; not modified)');

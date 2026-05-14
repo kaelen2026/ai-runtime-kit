@@ -24,6 +24,7 @@ async function run(argv) {
         cwd: { type: 'string' },
         yes: { type: 'boolean', short: 'y', default: false },
         'no-diff': { type: 'boolean', default: false },
+        pager: { type: 'string' },
         'allow-dirty': { type: 'boolean', default: false },
         'allow-downgrade': { type: 'boolean', default: false },
         help: { type: 'boolean', short: 'h', default: false },
@@ -109,7 +110,22 @@ async function run(argv) {
   }
 
   if (!parsed.values['no-diff']) {
-    printPerFileDiff(diff, runtimeDir);
+    const pagerCmd = parsed.values.pager ?? process.env.AI_RUNTIME_KIT_PAGER;
+    if (pagerCmd && process.stdout.isTTY) {
+      const { spawn } = require('node:child_process');
+      const [bin, ...pagerArgs] = pagerCmd.split(/\s+/);
+      const child = spawn(bin, pagerArgs, {
+        stdio: ['pipe', 'inherit', 'inherit'],
+      });
+      printPerFileDiff(diff, runtimeDir, child.stdin);
+      child.stdin.end();
+      await new Promise((resolve, reject) => {
+        child.on('close', resolve);
+        child.on('error', reject);
+      });
+    } else {
+      printPerFileDiff(diff, runtimeDir);
+    }
   }
 
   // Confirm
@@ -151,6 +167,10 @@ Options:
   --cwd <dir>          Target directory (default: process.cwd())
   --yes, -y            Skip the y/N prompt (apply immediately)
   --no-diff            Skip the per-file diff preview (still shows summary)
+  --pager <cmd>        Pipe per-file diff through this pager (e.g.
+                       \`--pager 'less -R'\`). Also honored via env
+                       AI_RUNTIME_KIT_PAGER. Only applied when stdout
+                       is a TTY.
   --allow-dirty        Skip the git dirty check
   --allow-downgrade    Permit installing an older kit version
   -h, --help           Show this help.`);
