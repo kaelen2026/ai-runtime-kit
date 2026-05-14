@@ -22,4 +22,17 @@ function isGitRepo(cwd) {
   return r.status === 0;
 }
 
-module.exports = { gitStatusPorcelain, isGitRepo };
+// `git check-ignore` returns 0 if path is ignored, 1 if not, 128 if not a
+// git repo. Null on any non-deterministic result so callers stay silent
+// rather than misreporting.
+function isPathGitignored(targetPath, cwd) {
+  const r = spawnSync('git', ['check-ignore', '-q', '--', targetPath], {
+    cwd,
+    encoding: 'utf8',
+  });
+  if (r.status === 0) return true;
+  if (r.status === 1) return false;
+  return null;
+}
+
+module.exports = { gitStatusPorcelain, isGitRepo, isPathGitignored };

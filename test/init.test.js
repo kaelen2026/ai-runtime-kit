@@ -137,6 +137,55 @@ test('init: refuses when CLAUDE.md already exists at project root', () => {
   fs.rmSync(cwd, { recursive: true, force: true });
 });
 
+test('init: hints when .ai/runtime/ is gitignored (v0.4.1)', () => {
+  const cwd = makeTmp();
+  const { spawnSync } = require('node:child_process');
+  spawnSync('git', ['init', '-q', '-b', 'main'], { cwd });
+  fs.writeFileSync(path.join(cwd, '.gitignore'), '.ai/runtime/\n');
+
+  const r = spawnSync(
+    process.execPath,
+    [path.join(__dirname, '..', 'bin', 'cli.js'), 'init', '--cwd', cwd],
+    { encoding: 'utf8' },
+  );
+  assert.equal(r.status, 0, `init exits 0; stderr=${r.stderr}`);
+  assert.match(r.stdout, /\.ai\/runtime\/ is gitignored/, 'prints gitignore hint');
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
+test('init: silent when .ai/runtime/ is NOT gitignored', () => {
+  const cwd = makeTmp();
+  const { spawnSync } = require('node:child_process');
+  spawnSync('git', ['init', '-q', '-b', 'main'], { cwd });
+  // No .gitignore — runtime is tracked.
+
+  const r = spawnSync(
+    process.execPath,
+    [path.join(__dirname, '..', 'bin', 'cli.js'), 'init', '--cwd', cwd],
+    { encoding: 'utf8' },
+  );
+  assert.equal(r.status, 0, `init exits 0; stderr=${r.stderr}`);
+  assert.doesNotMatch(r.stdout, /gitignored/, 'no gitignore hint in normal case');
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
+test('init: silent in non-git directory (no gitignore hint)', () => {
+  const cwd = makeTmp();
+  // No git init.
+
+  const r = require('node:child_process').spawnSync(
+    process.execPath,
+    [path.join(__dirname, '..', 'bin', 'cli.js'), 'init', '--cwd', cwd],
+    { encoding: 'utf8' },
+  );
+  assert.equal(r.status, 0, `init exits 0; stderr=${r.stderr}`);
+  assert.doesNotMatch(r.stdout, /gitignored/, 'no gitignore hint in non-git case');
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
 test('init --migrate: tolerates pre-existing CLAUDE.md', () => {
   const cwd = makeTmp();
   fs.writeFileSync(path.join(cwd, 'CLAUDE.md'), 'hand-written\n');

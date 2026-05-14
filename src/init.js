@@ -7,6 +7,7 @@ const { parseArgs } = require('node:util');
 const { copyKitRuntimeTo, dirHasFiles, removeDir } = require('./snapshot');
 const { writeProjectKitVersion, KIT_VERSION } = require('./version');
 const { projectStateMd, projectTaskStatusMd, agentEntryClaudeMd } = require('./templates');
+const { isPathGitignored } = require('./git');
 
 const PROJECT_SKELETON_DIRS = [
   'specs',
@@ -130,6 +131,13 @@ function run(argv) {
     console.log('  - CLAUDE.md     (pre-existing; not modified)');
   } else {
     console.log('  - CLAUDE.md     (skipped via --no-agent-entry)');
+  }
+
+  if (isPathGitignored('.ai/runtime', cwd) === true) {
+    console.log('');
+    console.log('Note: .ai/runtime/ is gitignored. Clones of this repo will not');
+    console.log('      contain the runtime tree; they will need to run');
+    console.log('      `ai-runtime-kit init` or `upgrade` to regenerate it.');
   }
 }
 

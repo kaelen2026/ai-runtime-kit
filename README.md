@@ -10,6 +10,12 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.4.1** — `init` now hints when `.ai/runtime/` is gitignored,
+so clones won't silently miss the runtime tree. Print is
+suppressed when the path is tracked (normal case) and in non-git
+directories. Surfaced during dogfood: the kit's own repo
+gitignores `.ai/runtime/` because it's a snapshot of `./runtime/`.
+
 **v0.4.0** — `init` now also writes a project-root `CLAUDE.md`
 agent entry file pointing Claude Code at
 `.ai/runtime/BOOTSTRAP.md`, so the runtime is actually
