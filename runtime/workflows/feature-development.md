@@ -35,6 +35,35 @@ Rules:
 
 ## Workflow
 
+### 0. Define PRD (optional — product-driven features)
+
+For features driven by product intent (new capabilities, UX
+changes, user-visible behavior shifts), draft a PRD first under:
+
+```txt
+.ai/project/prds/YYYY-MM-DD-<slug>/prd.md
+```
+
+Use `.ai/runtime/prds/_template.md` as the starting point. The
+PRD answers **what & why** — Problem, Target Users, Success
+Metrics, User Stories, Out of Scope, Open Questions,
+Stakeholders. Engineering details (architecture, data flow, code
+contracts) belong in the downstream spec, not the PRD.
+
+Skip this step when:
+
+- the change is corrective (use `bug-fix.md` instead — bug fixes
+  don't need PRDs),
+- the change is engineering-only (refactor, dependency bump, test
+  coverage, governance maintenance),
+- the scope is small enough that the spec alone communicates
+  intent.
+
+PRD lifecycle mirrors specs: `DRAFT → APPROVED → REJECTED →
+SUPERSEDED`. An APPROVED PRD authorizes spec drafting. The
+downstream spec MUST reference its PRD by path in §1 Goal so
+review can verify the spec satisfies the PRD.
+
 ### 1. Define Spec
 
 Create a feature spec under:
@@ -42,6 +71,10 @@ Create a feature spec under:
 ```txt
 .ai/project/specs/YYYY-MM-DD-feature-name/spec.md
 ```
+
+If the spec is downstream of a PRD (Step 0), §1 Goal must cite
+the PRD path so reviewers can check that the spec covers the
+PRD's requirements without quietly expanding scope.
 
 Spec must include:
 

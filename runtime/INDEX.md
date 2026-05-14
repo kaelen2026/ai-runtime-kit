@@ -142,6 +142,33 @@ follows the workflow in `.ai/runtime/hooks/README.md`.
 
 ---
 
+## PRDs
+
+Location:
+
+```txt
+.ai/project/prds/  (instance)
+.ai/runtime/prds/_template.md  (template)
+```
+
+Defines product requirements ("what & why") for product-driven
+features. PRDs are upstream of specs: a PRD answers the problem,
+target users, and success metrics; the downstream spec answers
+how to build it. Optional — bug fixes and small engineering-only
+changes do not require a PRD. See
+`.ai/runtime/workflows/feature-development.md` § Step 0.
+
+PRD lifecycle:
+
+```txt
+DRAFT
+→ APPROVED
+→ REJECTED
+→ SUPERSEDED
+```
+
+---
+
 ## Specs
 
 Location:
