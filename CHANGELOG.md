@@ -10,6 +10,53 @@ kit.
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-05-14
+
+Second feature shipped under the v0.6.0 PRD → Feature → Spec
+pipeline. F2 of the nine-phase-workflow PRD; F1 was v0.6.0
+(feature artifact layer). F3 (TDD step) and F4 (traceability)
+follow.
+
+### Added
+- **`runtime/agents/feature-writer.md`** — role for Step 0.5
+  (slicing PRD into features).
+- **`runtime/agents/spec-writer.md`** — role for Step 1
+  (drafting spec from APPROVED feature).
+- **`runtime/agents/planner.md`** — role for plan + task
+  authoring (the "task" phase consumes tasks downstream;
+  no separate task-creator file ships).
+- **`runtime/agents/tdd-writer.md`** — role for the
+  failing-test phase. Workflow wire-up arrives with F3.
+- **`runtime/agents/reviewer.md`** — role for post-impl
+  review authoring.
+
+### Changed
+- `runtime/INDEX.md` § Agents restructured: 8 role files
+  enumerated (3 existing + 5 new); "Recommended Agent Flow"
+  rewritten as 8-phase chain PRD-Writer → Feature-Writer →
+  Spec-Writer → Planner → TDD-Writer → Executor → Verifier →
+  Reviewer; "transition-only concepts" prose retired —
+  replaced with explicit notes on task (no file) and architect
+  (renamed to spec-writer).
+- `runtime/agents/executor.md` — gains `## Reference` section
+  with prev/next pointers (tdd-writer → executor → verifier).
+- `runtime/agents/verifier.md` — gains `## Reference` section
+  (executor → verifier → reviewer).
+- `runtime/agents/prd-writer.md` — `## Reference` now includes
+  a downstream pointer to feature-writer.
+
+### Process
+- Spec amended mid-implementation: agent-file size ceiling
+  revised 1500 → 1700 bytes (5 files landed 1509–1681). Same
+  drift pattern as v0.5.1's prd-writer.md (1200 → 1500). Spec
+  budgets remain hard to estimate pre-content.
+- Fourth real-world fire of `pre-executor/runtime-scoped-preflight`
+  hook; clean pass on first attempt (9 runtime paths enumerated).
+- F2's spec author (claude) resolved all 4 feature-level open
+  questions during spec drafting — first time on this kit
+  that the spec phase converged feature-level decisions
+  without escalating to user.
+
 ## [0.6.0] - 2026-05-14
 
 First feature shipped under the new **PRD → Feature → Spec**

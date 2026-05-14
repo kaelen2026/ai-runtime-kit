@@ -10,6 +10,15 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.7.0** — Completes the 8-phase agent roster. Adds 5 new
+role files (`feature-writer`, `spec-writer`, `planner`,
+`tdd-writer`, `reviewer`) under `runtime/agents/`. INDEX.md's
+"Recommended Agent Flow" rewritten as the full chain:
+PRD-Writer → Feature-Writer → Spec-Writer → Planner →
+TDD-Writer → Executor → Verifier → Reviewer. F2 of the
+nine-phase-workflow PRD; F3 (TDD step in workflow) + F4
+(traceability conventions) follow.
+
 **v0.6.0** — Adds the **feature artifact** between PRD and spec
 — first slice (F1) of the nine-phase-workflow PRD. New
 `runtime/features/_template.md`, new workflow Step 0.5
