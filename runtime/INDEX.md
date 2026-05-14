@@ -175,6 +175,38 @@ DRAFT
 
 ---
 
+## Features
+
+Location:
+
+```txt
+.ai/project/features/  (instance)
+.ai/runtime/features/_template.md  (template)
+```
+
+Defines one discrete capability sliced from a parent PRD. One
+PRD typically produces N features; one feature drives one (or
+occasionally more) downstream spec. Features answer "what
+specific slice of the PRD does this satisfy, and what does done
+look like for this slice." Engineering details (architecture,
+contracts, test plan) belong in the downstream spec, not the
+feature. See
+`.ai/runtime/workflows/feature-development.md` § Step 0.5.
+
+Mandatory whenever Step 0 (PRD) ran; same skip criteria as
+Step 0 (bug fixes and engineering-only changes skip both).
+
+Feature lifecycle:
+
+```txt
+DRAFT
+→ APPROVED
+→ REJECTED
+→ SUPERSEDED
+```
+
+---
+
 ## Specs
 
 Location:

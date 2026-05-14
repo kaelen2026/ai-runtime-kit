@@ -66,9 +66,43 @@ Skip this step when:
   intent.
 
 PRD lifecycle mirrors specs: `DRAFT → APPROVED → REJECTED →
-SUPERSEDED`. An APPROVED PRD authorizes spec drafting. The
-downstream spec MUST reference its PRD by path in §1 Goal so
-review can verify the spec satisfies the PRD.
+SUPERSEDED`. An APPROVED PRD authorizes feature slicing (Step
+0.5).
+
+### 0.5. Slice into Features
+
+When Step 0 ran (a PRD exists), slice it into **≥1 feature
+docs** under:
+
+```txt
+.ai/project/features/YYYY-MM-DD-<slug>/feature.md
+```
+
+One feature per discrete capability that can be specced and
+implemented independently. The feature doc answers "what slice
+of the PRD does this satisfy, and what does done look like" —
+mid-level between PRD ("what & why") and spec ("how").
+Engineering details (architecture, contracts, test plan) belong
+in the spec, not the feature.
+
+Use `.ai/runtime/features/_template.md` as the starting point.
+Each feature must cite its parent PRD in `## Parent PRD`; the
+PRD's `## Downstream Spec` section lists the features that
+derived from it.
+
+**Mandatory whenever Step 0 ran.** Same skip criteria as Step 0:
+bug-fix workflow and engineering-only changes skip Step 0
+entirely, so they skip Step 0.5 too.
+
+Single-feature PRDs still produce **one feature doc with the
+full template structure** — sections may contain "see parent
+PRD" pointers when the content is fully captured upstream, but
+no 5-line stub allowance (consistent shape protects
+traceability tooling and audit clarity).
+
+Feature lifecycle mirrors specs: `DRAFT → APPROVED → REJECTED →
+SUPERSEDED`. An APPROVED feature authorizes spec drafting for
+that feature.
 
 ### 1. Define Spec
 
@@ -78,9 +112,12 @@ Create a feature spec under:
 .ai/project/specs/YYYY-MM-DD-feature-name/spec.md
 ```
 
-If the spec is downstream of a PRD (Step 0), §1 Goal must cite
-the PRD path so reviewers can check that the spec covers the
-PRD's requirements without quietly expanding scope.
+If the spec is downstream of a feature (Step 0.5), §1 Goal must
+cite the feature path (the feature in turn cites its parent
+PRD, so the chain assembles upward). Reviewers walk the chain to
+check that the spec covers the feature's requirements without
+quietly expanding scope and that the feature covers its share of
+the PRD's metrics.
 
 Spec must include:
 
