@@ -10,6 +10,48 @@ kit.
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-05-14
+
+### Changed
+- **`CLAUDE.md` template overhauled.** Fresh `init` consumers
+  now receive a CLAUDE.md with a `## On task start` block of
+  6 numbered orientation steps covering: read
+  `runtime/INDEX.md` § Workflow Overview; read
+  `.ai/project/STATE.md`; pick the matching `runtime/agents/<role>.md`
+  for the workflow phase (8 roles listed); honor
+  `## Parent <Type>` traceability; respect runtime-scoped
+  governance branch rule; verify via `npm test` + `validate`.
+  The v0.4.0-era 4-step "Loading order" block is retired —
+  it pointed only at BOOTSTRAP.md and didn't mention the
+  v0.5.x–v0.10.x additions (9-phase pipeline / 8 role files /
+  traceability chain / governance branches / validate
+  command).
+- `test/init.test.js` — CLAUDE.md assertions extended in
+  place to cover the new orientation content phrases.
+  Still 24/24 (in-place extension).
+
+### Process
+- **First non-runtime-scoped, src/-touching feature shipped
+  since v0.10.0.** Branch `feat/claude-md-orientation`
+  (not `chore/runtime-*`); preflight hook correctly did not
+  fire.
+- TDD-Applies = true (template string change → init's
+  output changes → behavior-changing). Single TDD pair:
+  test commit precedes impl commit (M4 audit clean).
+- Existing v0.10.x consumers are NOT affected on `upgrade`
+  — `CLAUDE.md` is project-owned and `upgrade` never
+  touches it. To pick up the new orientation, consumers
+  must manually replace their `CLAUDE.md` or re-run `init`
+  in a fresh dir and copy.
+
+### Known follow-up
+- This kit's own `CLAUDE.md` retains the v0.4.0-era
+  dogfood-specific content (the repo's CLAUDE.md notes
+  "this repo IS the kit source," which the generic template
+  doesn't). Deferred per spec Req. 5; revisit in v0.11.x if
+  the dogfood note becomes worth merging with the generic
+  orientation.
+
 ## [0.10.2] - 2026-05-14
 
 Doc-only addition for agent orientation.

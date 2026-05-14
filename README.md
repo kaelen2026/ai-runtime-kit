@@ -10,6 +10,17 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.11.0** — Overhauls the `CLAUDE.md` template that `init`
+writes for fresh consumers. The new template carries 6
+numbered "On task start" orientation steps covering the
+9-phase pipeline, all 8 agent role files, the
+`## Parent <Type>` traceability chain, the runtime-scoped
+governance branch rule, and the `validate` command. The
+v0.4.0-era minimal template (pointing only at BOOTSTRAP.md)
+is retired — too thin given the v0.5.x–v0.10.x additions.
+A fresh agent reading the new CLAUDE.md can now orient
+without per-task manual prompting.
+
 **v0.10.1** — Bundled cleanup of 4 doc-only follow-ups from
 v0.9.0/v0.10.0 reviews: workflow cross-ref to `INDEX § Traceability`,
 hot-fix example in task template, new `spec-writer.md` Must Not
