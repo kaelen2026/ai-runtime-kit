@@ -10,6 +10,25 @@ kit.
 
 ## [Unreleased]
 
+## [0.10.2] - 2026-05-14
+
+Doc-only addition for agent orientation.
+
+### Added
+- `runtime/INDEX.md` § Workflow Overview — new section between
+  § Purpose and § Agents. Synthesizes the 9-step pipeline +
+  8 agents + 6 artifact types + traceability chain +
+  governance boundary into a single big-picture orientation.
+  92 lines; cross-references the existing § Agents,
+  § Traceability, § Workflows, § Recommended Agent Flow,
+  and § Hooks sections for detail.
+
+### Process
+- Ninth fire of `pre-executor/runtime-scoped-preflight` hook,
+  ninth clean pass.
+- Smallest scope of any runtime-scoped ship this session
+  (1 runtime path).
+
 ## [0.10.1] - 2026-05-14
 
 Bundled cleanup of four doc-only follow-ups from v0.9.0 and
