@@ -117,3 +117,40 @@ test('validate: (none — ...) rendering bypasses parent-path resolution', () =>
 
   fs.rmSync(cwd, { recursive: true, force: true });
 });
+
+const { spawnSync } = require('node:child_process');
+
+const CLI = path.join(__dirname, '..', 'bin', 'cli.js');
+
+test('validate CLI: --json outputs valid JSON with documented shape', () => {
+  const cwd = makeTmp();
+  writeArtifact(cwd, '.ai/project/prds/2026-05-14-x/prd.md', PRD_BODY);
+
+  const r = spawnSync(process.execPath, [CLI, 'validate', '--cwd', cwd, '--json'], {
+    encoding: 'utf8',
+  });
+
+  assert.equal(r.status, 0, `expected exit 0 on clean tree; stderr=${r.stderr}`);
+  const parsed = JSON.parse(r.stdout);
+  assert.ok(Array.isArray(parsed.errors), 'errors is array');
+  assert.ok(Array.isArray(parsed.warnings), 'warnings is array');
+  assert.ok(parsed.summary && typeof parsed.summary === 'object', 'summary is object');
+  assert.equal(parsed.result, 'PASS', 'result is PASS');
+
+  fs.rmSync(cwd, { recursive: true, force: true });
+});
+
+test('validate CLI: dogfood — runs against this repo .ai/ tree and exits 0', () => {
+  const repoRoot = path.join(__dirname, '..');
+
+  const r = spawnSync(process.execPath, [CLI, 'validate', '--cwd', repoRoot], {
+    encoding: 'utf8',
+  });
+
+  assert.equal(
+    r.status,
+    0,
+    `expected exit 0 on this kit's tree; stderr=${r.stderr}\nstdout=${r.stdout}`,
+  );
+  assert.match(r.stdout, /Result: PASS/, 'human output shows PASS verdict');
+});
