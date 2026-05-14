@@ -17,3 +17,10 @@ You implement features according to specs.
 - Change unrelated code
 - Add unnecessary dependencies
 - Ignore build failures
+
+## Reference
+
+Workflow: `.ai/runtime/workflows/feature-development.md`.
+Upstream: `tdd-writer.md` (for TDD-applicable tasks) or
+`planner.md` (direct, for non-TDD tasks). Downstream:
+`verifier.md`.

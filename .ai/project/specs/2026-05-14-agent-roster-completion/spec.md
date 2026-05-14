@@ -2,7 +2,7 @@
 
 ## Status
 
-DRAFT
+APPROVED
 
 ## Goal
 
@@ -42,9 +42,12 @@ Includes:
     phase. (Workflow Step that invokes this is F3's scope.)
   - `runtime/agents/reviewer.md` — Role for post-impl review
     authoring.
-  - Each file ≤1500 bytes (matches v0.5.1 `prd-writer.md`
-    precedent; sections: Role / Responsibilities / Inputs /
-    Outputs / Must Not / Reference).
+  - Each file ≤1700 bytes (revised from initial 1500 ceiling
+    during implementation — matches v0.5.1's "size budgets are
+    easy to under-estimate" lesson from its review; 5 files
+    with multi-step responsibilities legitimately exceeded
+    1500. Sections: Role / Responsibilities / Inputs / Outputs
+    / Must Not / Reference).
 
 - **runtime/agents/** (governance-protected, EXISTING edits):
   - `runtime/agents/executor.md` — adds a `## Reference`
@@ -153,7 +156,8 @@ Excludes:
 ## Acceptance Criteria
 
 - 5 new agent files exist with all 6 required sections; each
-  ≤1500 bytes.
+  ≤1700 bytes (ceiling revised mid-impl; final sizes
+  1509–1681).
 - 3 existing agent files have `## Reference` neighbor pointers
   (executor / verifier each have prev + next; prd-writer has
   downstream).

@@ -81,3 +81,10 @@ PASS | FAIL
 - Implement features
 - Change feature scope
 - Ignore failing checks
+
+---
+
+## Reference
+
+Workflow: `.ai/runtime/workflows/feature-development.md`.
+Upstream: `executor.md`. Downstream: `reviewer.md`.

@@ -54,3 +54,6 @@ so that Z" form, ≥1 success metric observable post-ship,
 `.ai/project/skills/product/write-a-prd/SKILL.md` (this repo's
 dogfood; project-side). Concept lattice: agent = WHO,
 skill = HOW.
+
+Workflow: `.ai/runtime/workflows/feature-development.md` § 0.
+Downstream: `feature-writer.md` (Step 0.5 — slicing the PRD).

@@ -23,23 +23,45 @@ Location:
 
 Role files in this location:
 
+- prd-writer
+- feature-writer
+- spec-writer
+- planner
+- tdd-writer
 - executor
 - verifier
-- prd-writer
+- reviewer
 
-The runtime framework defines five role concepts in its
-agent-pipeline transitions (Architect → Planner → Executor →
-Verifier → Reviewer; see Recommended Agent Flow below and
-`.ai/runtime/hooks/README.md` for the full phase taxonomy).
-The `architect`, `planner`, and `reviewer` phases exist as
-transition concepts referenced by workflow and hook docs but
-have no dedicated role-definition file in `.ai/runtime/agents/`
-today.
+The runtime framework defines an 8-phase agent pipeline that
+covers the full feature-development workflow. Every phase has
+a corresponding role-definition file under
+`.ai/runtime/agents/`. Recommended Agent Flow:
 
-`prd-writer` is a **pre-pipeline role** active at workflow
-Step 0 (PRD authoring), not part of the five transition phases
-above. See `.ai/runtime/workflows/feature-development.md` § 0
-and `.ai/runtime/agents/prd-writer.md`.
+```txt
+PRD-Writer
+  → Feature-Writer
+  → Spec-Writer
+  → Planner
+  → TDD-Writer (for TDD-applicable tasks)
+  → Executor
+  → Verifier
+  → Reviewer
+```
+
+Notes on phases without their own files:
+
+- **Task** is a transition concept, not a role. Tasks are
+  authored by `planner` and consumed by `tdd-writer` /
+  `executor`. No dedicated `task-creator.md` ships
+  (decision recorded in
+  `.ai/project/specs/2026-05-14-agent-roster-completion/spec.md`
+  § Open Questions Q2).
+- `architect` is replaced by `spec-writer` in the agent
+  vocabulary (decision recorded in the same spec § Q3).
+- `prd-writer` is a **pre-pipeline role** active at workflow
+  Step 0; the other 7 form the in-pipeline chain
+  (Steps 0.5 through Review). See
+  `.ai/runtime/workflows/feature-development.md`.
 
 ---
 
