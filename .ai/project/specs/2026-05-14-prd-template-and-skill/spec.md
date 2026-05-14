@@ -32,8 +32,9 @@ Includes:
 - **runtime/** (governance-protected):
   - `runtime/prds/_template.md` — new template, DRAFT/APPROVED/
     REJECTED/SUPERSEDED lifecycle mirroring specs.
-  - `runtime/INDEX.md` — add `## PRDs` section between `## Specs`
-    upstream and `## Plans` downstream.
+  - `runtime/INDEX.md` — add `## PRDs` section immediately
+    BEFORE `## Specs`, reflecting workflow chronology
+    (PRD → Spec → Plan → Tasks → Review).
   - `runtime/workflows/feature-development.md` — add a "Step 0:
     Define PRD (optional, for product-driven features)" preceding
     the existing "1. Define Spec". Bug-fix workflow untouched (PRDs
@@ -83,9 +84,10 @@ Excludes:
      output.
    - No engineering details (architecture, data flow, code
      contracts) — those belong in the downstream spec.
-2. `runtime/INDEX.md` has a `## PRDs` section between Specs and
-   Plans, pointing to `runtime/prds/_template.md` and
-   `.ai/project/prds/` (instance).
+2. `runtime/INDEX.md` has a `## PRDs` section placed immediately
+   BEFORE Specs (PRDs precede specs in workflow order), pointing
+   to `runtime/prds/_template.md` and `.ai/project/prds/`
+   (instance).
 3. `runtime/workflows/feature-development.md` has a new Step 0
    that:
    - Is explicitly optional ("for product-driven features").
@@ -111,7 +113,8 @@ Excludes:
 
 - `runtime/prds/_template.md` exists; `cat` shows all 7 required
   sections.
-- `runtime/INDEX.md` has `## PRDs` section between Specs and Plans;
+- `runtime/INDEX.md` has `## PRDs` section placed immediately
+  BEFORE Specs;
   paths resolve.
 - `runtime/workflows/feature-development.md` has Step 0; subsequent
   step numbers remain consistent (or use 1a/1b style).
