@@ -119,6 +119,12 @@ check that the spec covers the feature's requirements without
 quietly expanding scope and that the feature covers its share of
 the PRD's metrics.
 
+The canonical rules for `## Parent <Type>` sections per artifact
+type — including the `(none — <reason>)` rendering convention
+for engineering-only specs, bug-fix specs, and hot-fix tasks —
+live at `.ai/runtime/INDEX.md` § Traceability. Use
+`ai-runtime-kit validate` to verify a project's tree conforms.
+
 Spec must include:
 
 - Goal

@@ -16,10 +16,12 @@ Describe the specific engineering goal.
 ## Parent Plan
 
 `.ai/project/plans/YYYY-MM-DD-<slug>/plan.md`
-<!-- Required. Single path. For hot-fix tasks created outside
-     the normal plan-first workflow, render
-     `(none — direct task)`. See .ai/runtime/INDEX.md
-     § Traceability for the full chain. -->
+<!-- Required. Single path.
+     For hot-fix tasks created outside the normal plan-first
+     workflow, render literally:
+         (none — direct task)
+     See .ai/runtime/INDEX.md § Traceability for the full
+     chain and the (none — <reason>) rendering convention. -->
 
 ---
 
