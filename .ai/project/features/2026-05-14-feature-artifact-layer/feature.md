@@ -11,7 +11,7 @@
 
 ## Status
 
-DRAFT
+APPROVED
 
 ## Parent PRD
 
