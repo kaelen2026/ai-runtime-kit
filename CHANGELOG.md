@@ -10,6 +10,81 @@ kit.
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-05-14
+
+**First M4 data point.** Kit's first `src/**` feature shipped
+under the v0.6.0+ PRD → Feature → Spec → Plan → Task → TDD →
+Implement → Verify → Review workflow with `TDD-Applies: true`
+tasks. Two TDD pairs (test-commit-before-impl-commit) at 100%
+test-first ordering.
+
+### Added
+- **`validate` command** — checks `.ai/project/` tree
+  structural integrity. Walks every artifact (PRD / feature /
+  spec / plan / task / review) and verifies:
+  - Required `## Parent <Type>` sections per v0.9.0 INDEX §
+    Traceability rules.
+  - Cited parent paths resolve to real files on disk.
+  - `Status` values are in the allowed set per artifact type.
+  Reports errors (missing-parent / empty-parent /
+  unresolved-parent) and warnings (unexpected-status). Exits
+  0 on clean, 1 on any error.
+- `--json` flag for machine-parseable output.
+- `--cwd <dir>` flag for non-default project root.
+- `src/validate.js` (NEW) — pure validator module.
+- `test/validate.test.js` (NEW) — 6 unit tests (clean tree,
+  missing parent, broken path, `(none — ...)` rendering,
+  JSON output, live dogfood smoke).
+
+### Changed
+- `bin/cli.js` — dispatcher gains `validate` subcommand;
+  HELP lists it alongside `init` and `upgrade`.
+- 7 historical specs (v0.4.0 / v0.5.0 / v0.5.1 / v0.6.0 /
+  v0.7.0 / v0.8.0 / v0.8.1) retrofitted with `## Parent
+  Feature` sections (pre-v0.6.0 use `(none —
+  pre-feature-layer)`; v0.8.1 uses `(none —
+  engineering-only)`; the rest cite real feature paths).
+- 7 historical reviews retrofitted with `## Parent Spec`
+  sections. v0.9.0's spec/review already had theirs (the
+  convention F4 shipped was in use immediately on its own
+  review). Retrofit is project-side and not subject to
+  preflight.
+
+### Process
+- **Kit's first `src/**` feature** under the new pipeline.
+  Branch was `feat/validate-cli` (not `chore/runtime-*`)
+  because no `runtime/**` paths in scope.
+- **First non-runtime-scoped feature in the v0.6.0+
+  workflow** — preflight hook did not fire (correctly; no
+  `runtime/**` paths to gate on). The kit's discipline now
+  cleanly distinguishes governance-scoped (preflight gated)
+  from kit-code-scoped (regular feature branches).
+- **First M4 data point.** Two TDD pairs:
+  - T1 (src/validate.js): test commit 16:07:26 → impl
+    16:08:21 (Δ +55s).
+  - T2 (bin/cli.js): test commit 16:09:47 → impl 16:11:53
+    (Δ +2m6s).
+  Both pairs satisfy "test-commit precedes impl-commit." M4
+  score for this feature: 2/2 = 100%.
+- **Validator caught a real concern during dogfood.** The
+  first run reported `TASK_STATUS.md` as a missing-parent
+  error; this file is a top-level status tracker (output of
+  `init`), not a task instance. Fix landed in C4: validator
+  now skips `EXCLUDED_FILENAMES`. The tool catching its own
+  edge case in its first ship cycle is the dogfood loop
+  working as intended.
+- **Spec amended mid-implementation** (third occurrence —
+  v0.5.1, v0.7.0, and now v0.10.0). Original spec excluded
+  retrofitting historical artifacts; the validator's
+  credibility depends on its first dogfood pass being
+  clean, so the spec was amended pre-impl to include
+  retrofit work. Recorded in spec § Status with a comment.
+- **24/24 tests pass** (18 prior + 6 new).
+- **`validate` against this repo's `.ai/` tree**:
+  3 PRDs / 5 features / 9 specs / 0 plans / 0 tasks /
+  8 reviews / **0 errors / 0 warnings / Result: PASS**.
+  VM1 satisfied live on first ship.
+
 ## [0.9.0] - 2026-05-14
 
 **Closes the v0.6.0 nine-phase-workflow PRD's 4-feature

@@ -10,6 +10,16 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.10.0** — Adds the **`validate` command** — checks
+`.ai/project/` tree structural integrity (every artifact carries
+its required `## Parent <Type>` section; every cited parent path
+resolves on disk; Status values are valid). Reports errors and
+warnings; exits 0 on clean / 1 on errors; `--json` for machine
+output. **First `src/**` feature shipped under the v0.6.0+
+PRD → Feature → Spec → Plan → Task → TDD → Implement → Verify
+→ Review pipeline; first M4 data point — 2/2 TDD pairs at
+100% test-first ordering.**
+
 **v0.9.0** — Formalizes the **`## Parent <Type>` traceability
 convention** across all artifact templates. Every kit artifact
 (spec / plan / task / review) now carries a structural
