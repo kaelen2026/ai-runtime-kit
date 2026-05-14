@@ -3,3 +3,7 @@ node_modules/
 *.log
 .env
 .env.local
+
+# Dogfood: .ai/runtime/ is a snapshot of ./runtime/ — keep local only.
+# .ai/project/ is the dogfood project tree and IS committed.
+.ai/runtime/
