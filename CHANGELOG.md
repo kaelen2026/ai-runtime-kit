@@ -10,11 +10,38 @@ kit.
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-05-14
+
+### Added
+- **`runtime/agents/prd-writer.md`** — new kit-shipped agent role
+  for PRD authoring at workflow Step 0. Parallel to `executor.md`
+  and `verifier.md`; closes the agent-vocabulary gap where v0.5.0's
+  Step 0 demanded an upstream document producer with no canonical
+  role file. Sections: Role / Responsibilities / Inputs / Outputs
+  / Must Not / Reference. Concept lattice: agent = WHO,
+  skill = HOW (the procedural 11-step depth stays in this repo's
+  project-side `write-a-prd` skill, referenced from the agent file).
+
 ### Changed
-- Future npm tarballs include `CHANGELOG.md`. The package's
-  `files` allowlist now lists `CHANGELOG.md` so it ships
-  alongside `bin/`, `src/`, `runtime/`, `README.md`, and
-  `LICENSE`. Effective on the next release after v0.5.0.
+- `runtime/INDEX.md` — adds `prd-writer` to the role-files list
+  and clarifies it as a **pre-pipeline role** (Step 0), not part
+  of the Architect → Planner → Executor → Verifier → Reviewer
+  transition phases.
+- `runtime/workflows/feature-development.md` Step 0 — now points
+  agents at `runtime/agents/prd-writer.md` alongside the existing
+  template pointer.
+- Package tarball now includes `CHANGELOG.md` (added to the
+  `files` allowlist in v0.5.0's [Unreleased]; first release where
+  this takes effect is v0.5.1).
+
+### Process
+- First PRD-then-spec end-to-end run on this kit. PRD authored
+  conversationally via the project-side `write-a-prd` skill,
+  10 user turns from "start" to file written (M2 budget exact).
+- Second real-world fire of the
+  `pre-executor/runtime-scoped-preflight` hook — all three
+  preconditions passed on first attempt (branch created
+  proactively, scope enumerated, spec home in place).
 
 ## [0.5.0] - 2026-05-14
 

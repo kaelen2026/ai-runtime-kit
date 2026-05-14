@@ -28,6 +28,7 @@ test('init: fresh project lays down .ai/runtime/ and .ai/project/ skeleton', () 
     assert.ok(fs.existsSync(path.join(cwd, '.ai/project', d)), `project/${d}`);
   }
   assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/prds/_template.md')), 'runtime PRD template');
+  assert.ok(fs.existsSync(path.join(cwd, '.ai/runtime/agents/prd-writer.md')), 'runtime prd-writer agent');
   assert.ok(fs.existsSync(path.join(cwd, '.ai/project/STATE.md')), 'STATE.md');
   assert.ok(fs.existsSync(path.join(cwd, '.ai/project/tasks/TASK_STATUS.md')), 'project TASK_STATUS.md');
 

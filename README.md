@@ -10,6 +10,14 @@ npx ai-runtime-kit upgrade   # existing kit consumer
 
 ## Status
 
+**v0.5.1** — Adds the `prd-writer` agent at
+`runtime/agents/prd-writer.md`, closing the v0.5.0 gap where
+Step 0 (define PRD) had no canonical role file. Parallel to
+`executor.md` and `verifier.md`; concept lattice is
+**agent = WHO, skill = HOW** (the elicit-then-write procedure
+remains in a project-side skill). First end-to-end PRD-then-spec
+run on this kit shipped this release.
+
 **v0.5.0** — PRDs become a first-class workflow artifact upstream
 of specs. New `runtime/prds/_template.md` (Problem / Target Users
 / Success Metrics / User Stories / Out of Scope / Open Questions
