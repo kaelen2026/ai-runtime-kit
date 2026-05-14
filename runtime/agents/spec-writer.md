@@ -48,6 +48,9 @@ One file at `.ai/project/specs/YYYY-MM-DD-<slug>/spec.md`.
 - Mix product intent (PRD / feature) with engineering details
   (your output).
 - Self-promote `Status: APPROVED`.
+- Lock hard byte-budgets on new template/role files without
+  prototyping — use ranges or revisit during impl
+  (drift hit v0.5.1 + v0.7.0).
 
 ---
 

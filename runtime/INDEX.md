@@ -148,8 +148,9 @@ Location:
 
 Defines agent-pipeline transition hooks — declarative boundary
 contracts between two agents in the recommended flow
-(Architect → Planner → Executor → Verifier → Reviewer). Unlike
-skills (task-triggered) and rules (file-scope-triggered), hooks
+(PRD-Writer → Feature-Writer → Spec-Writer → Planner →
+TDD-Writer → Executor → Verifier → Reviewer). Unlike skills
+(task-triggered) and rules (file-scope-triggered), hooks
 trigger on **agent transitions**. Unrelated to the Husky git hooks
 documented in `ADR-0006`. See `.ai/runtime/hooks/README.md` for the
 hook lifecycle, trigger taxonomy, gate behavior, and loading paths.
@@ -385,9 +386,15 @@ npm run verify
 ## Recommended Agent Flow
 
 ```txt
-Architect
+PRD-Writer
+↓
+Feature-Writer
+↓
+Spec-Writer
 ↓
 Planner
+↓
+TDD-Writer  (for TDD-applicable tasks; see workflow Step 1.5)
 ↓
 Executor
 ↓
