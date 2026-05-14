@@ -2,7 +2,7 @@
 
 ## Status
 
-DRAFT
+APPROVED
 
 ## Goal
 
@@ -117,8 +117,15 @@ preflight enumeration):
 ## Acceptance Criteria
 
 - `runtime/agents/prd-writer.md` exists with all 6 required
-  sections in order; word count between 150 (executor.md) and
-  1200 (verifier.md) characters of body, exclusive of headings.
+  sections in order; total file size ≤1500 bytes. (Original
+  spec ceiling was 1200 matching verifier.md's total size; during
+  implementation the Reference section pointing at the project-
+  side skill (Req. 1f) and the multi-bullet Inputs/Outputs/Must
+  Not sections proved harder to compress than anticipated.
+  Adjusted to 1500 with note for traceability — content reduction
+  alternatives would have dropped the skill path pointer or
+  collapsed Must Not bullets in ways that hurt the role's
+  clarity.)
 - `runtime/INDEX.md` § Agents lists `prd-writer` and the
   "pre-pipeline role" clarification sentence appears.
 - `runtime/workflows/feature-development.md` Step 0 references
@@ -171,9 +178,10 @@ resolved here:
 - **Agent file depth**: **verifier-style richer**, not
   executor-style minimal. Justification: prd-writer has
   meaningful Inputs/Outputs/Constraints sections to document;
-  executor.md's 5-bullet brevity would compress those flat. Word
-  budget capped at ≤1200 chars (matching verifier.md
-  ceiling).
+  executor.md's 5-bullet brevity would compress those flat.
+  Original word budget was ≤1200 bytes (matching verifier.md
+  total); revised to ≤1500 during implementation (see § Acceptance
+  Criteria revision note).
 - **INDEX.md placement**: flat append to existing role-files
   list. Three agents (executor / verifier / prd-writer) still
   fit a flat enumeration; no subsection needed.

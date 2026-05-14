@@ -25,6 +25,7 @@ Role files in this location:
 
 - executor
 - verifier
+- prd-writer
 
 The runtime framework defines five role concepts in its
 agent-pipeline transitions (Architect → Planner → Executor →
@@ -34,6 +35,11 @@ The `architect`, `planner`, and `reviewer` phases exist as
 transition concepts referenced by workflow and hook docs but
 have no dedicated role-definition file in `.ai/runtime/agents/`
 today.
+
+`prd-writer` is a **pre-pipeline role** active at workflow
+Step 0 (PRD authoring), not part of the five transition phases
+above. See `.ai/runtime/workflows/feature-development.md` § 0
+and `.ai/runtime/agents/prd-writer.md`.
 
 ---
 

@@ -50,6 +50,12 @@ Metrics, User Stories, Out of Scope, Open Questions,
 Stakeholders. Engineering details (architecture, data flow, code
 contracts) belong in the downstream spec, not the PRD.
 
+Read `.ai/runtime/agents/prd-writer.md` to anchor the role — it
+scopes the agent's responsibilities, inputs, outputs, and
+constraints. The procedural depth (the 11-step elicit-then-write
+flow) lives in a project-side skill referenced from the agent
+file; concept lattice is **agent = WHO, skill = HOW.**
+
 Skip this step when:
 
 - the change is corrective (use `bug-fix.md` instead — bug fixes
